@@ -31,17 +31,18 @@ class CustomOutlineBoder extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 49,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppTheme.buttonColor,width: 1.3)
+          borderRadius: BorderRadius.circular(8),
+          color: Color(0xFF2C91FF),
+          // border: Border.all(color: AppTheme.buttonColor,width: 1.3)
         ),
         child: expandedValue == true ? SizedBox(
           width: double.maxFinite,
           child: Center(
             child: Text(
               title,
-              style: GoogleFonts.poppins(
-                  color: AppTheme.buttonColor,
-                  fontSize: 16,
+              style:GoogleFonts.plusJakartaSans(
+                  color:  Colors.white,
+                  fontSize: 18,
                   fontWeight:
                   FontWeight
                       .w700),
@@ -50,12 +51,12 @@ class CustomOutlineBoder extends StatelessWidget {
             : Center(
               child: Text(
           title,
-          style: GoogleFonts.poppins(
-                color: AppTheme.buttonColor,
-                fontSize: 16,
-                fontWeight:
-                FontWeight
-                    .w700),
+                style:GoogleFonts.plusJakartaSans(
+                    color:  Colors.white,
+                    fontSize: 18,
+                    fontWeight:
+                    FontWeight
+                        .w700),
         ),
             ),
       ),

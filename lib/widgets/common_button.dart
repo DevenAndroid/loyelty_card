@@ -29,27 +29,18 @@ import 'common_colour.dart';
         width: MediaQuery.of(context).size.width,
         height: 49,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-
-              Color(0xFFF0D75F),
-              Color(0xFFB2802A),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter
-          ),
-          borderRadius: BorderRadius.circular(15),
+         color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
         ),
         child: ElevatedButton(
-
-
             style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
                 side:  BorderSide(
-                  color:  Colors.transparent,
+                  color:  Colors.white,
                 ),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+                      Radius.circular(8),
                     )),
 
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -62,10 +53,10 @@ import 'common_colour.dart';
               child: Center(
                 child: Text(
                   title,
-                  style:GoogleFonts.poppins(
+                  style:GoogleFonts.plusJakartaSans(
                       color:  Color(
-                          0xFFFFFFFF),
-                      fontSize: 15,
+                          0xFF2C91FF),
+                      fontSize: 18,
                       fontWeight:
                       FontWeight
                           .w700),
@@ -73,10 +64,10 @@ import 'common_colour.dart';
               ),        )
                 : Text(
               title,
-              style: GoogleFonts.poppins(
+              style:GoogleFonts.plusJakartaSans(
                   color:  Color(
-                      0xFFFFFFFF),
-                  fontSize: 15,
+                      0xFF2C91FF),
+                  fontSize: 18,
                   fontWeight:
                   FontWeight
                       .w700),

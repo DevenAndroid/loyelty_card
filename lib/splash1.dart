@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 
@@ -51,7 +52,7 @@ class _SplashState extends State<Splash> {
               height: size.height,
               width: size.width,
               child: Image.asset((
-                  'assets/images/Splash Screen.png'
+                  'assets/images/splash.png'
               ),
                 fit: BoxFit.fill,),
             )),
