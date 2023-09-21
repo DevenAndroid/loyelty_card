@@ -4,6 +4,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/widgets/common_boder_button.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:url_launcher/url_launcher.dart';
 class CardRecordScreen extends StatefulWidget {
   const CardRecordScreen({super.key});
 
@@ -199,8 +201,22 @@ child: Row(
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF3E3E3E)),),
 
-              // Text(' $_scanBarcode\n',
-              //     style: const TextStyle(fontSize: 20))
+             InkWell(
+               onTap: () async {
+    final Uri url = Uri.parse(_scanBarcode);
+    try {
+    await launchUrl(url,
+    mode: LaunchMode
+        .externalApplication);
+    } catch (e) {
+    throw Exception(e);
+    }
+    OpenFilex.open(url.path);
+    },
+
+               child: Text(' $_scanBarcode\n',
+                   style: const TextStyle(fontSize: 20,decoration: TextDecoration.underline),),
+             )
             ],
           ),
         ),

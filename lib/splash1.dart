@@ -32,7 +32,7 @@ class _SplashState extends State<Splash> {
   userCheck() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('cookie') != null) {
-      Get.offAllNamed(MyRouters.loginScreen);
+      Get.offAllNamed(MyRouters.scanCard);
     }
     else {
       Get.offAllNamed(MyRouters.loginScreen);

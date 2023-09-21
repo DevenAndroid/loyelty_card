@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loyelty_card/models/profile_model.dart';
+import 'package:loyelty_card/repositorys/get_profile_repo.dart';
+import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
+import 'package:loyelty_card/widgets/circular_progressindicator.dart';
 import 'package:loyelty_card/widgets/common_boder_button.dart';
+import 'package:loyelty_card/widgets/common_error_widget.dart';
 
 import '../../widgets/common_textfield.dart';
 class ScanCard extends StatefulWidget {
@@ -13,6 +18,28 @@ class ScanCard extends StatefulWidget {
 }
 
 class _ScanCardState extends State<ScanCard> {
+
+  Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
+  Rx<ProfileModel> profileModel = ProfileModel().obs;
+
+  getProfile() {
+    getProfileRepo().then((value) {
+      if (value.status!) {
+        profileModel.value = value;
+        statusOfProfile.value = RxStatus.success();
+        showToast(value.message.toString());
+      } else {
+        statusOfProfile.value = RxStatus.error();
+        showToast(value.message.toString());
+      }
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -24,7 +51,11 @@ class _ScanCardState extends State<ScanCard> {
             },
             child: CustomOutlineBoder(title: 'Scan',)),
       ),
-      body: SingleChildScrollView(
+      body:  Obx(() {
+      return profileModel.value.status ==true
+          ?
+
+      SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -38,7 +69,7 @@ class _ScanCardState extends State<ScanCard> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF33454D)),),
           SizedBox(height: 10,),
-    Text("Jack  Smith" ,style: GoogleFonts.plusJakartaSans(
+    Text(profileModel.value.data!.name.toString() ,style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF0073DA)),),
@@ -50,7 +81,16 @@ class _ScanCardState extends State<ScanCard> {
             ],
           ),
         ),
-      ),
+      )   : statusOfProfile.value.isError
+          ? CommonErrorWidget(
+        errorText: profileModel.value.message
+            .toString(),
+        onTap: () {
+          getProfile();
+        },
+      )
+          : const CommonProgressIndicator();
+      }),
     );
   }
 }

@@ -34,7 +34,7 @@ import 'common_colour.dart';
         ),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
                 side:  BorderSide(
                   color:  Colors.white,
                 ),

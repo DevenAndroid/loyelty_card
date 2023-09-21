@@ -12,8 +12,8 @@ class CommonProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Platform.isAndroid ? const CircularProgressIndicator(color: AppTheme.primaryColor,):
-        CupertinoActivityIndicator(color: AppTheme.primaryColor,radius: AddSize.size20, )
+        child: Platform.isAndroid ? const CircularProgressIndicator(color: AppTheme.secondaryColor,):
+        CupertinoActivityIndicator(color: AppTheme.secondaryColor,radius: AddSize.size20, )
     );
   }
 }
