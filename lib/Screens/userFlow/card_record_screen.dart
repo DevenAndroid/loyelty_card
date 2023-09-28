@@ -50,14 +50,14 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
             color: Colors.white),),
         centerTitle: true,
       ),
-      bottomNavigationBar:  Padding(
-        padding: EdgeInsets.only(bottom: 28.0),
-        child: InkWell(
-            onTap: (){
-              scanQR();
-            },
-            child: CustomOutlineBoder(title: "Buy",)),
-      ),
+      // bottomNavigationBar:  Padding(
+      //   padding: EdgeInsets.only(bottom: 28.0),
+      //   child: InkWell(
+      //       onTap: (){
+      //         scanQR();
+      //       },
+      //       child: CustomOutlineBoder(title: "Buy",)),
+      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -65,7 +65,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: Image.asset("assets/images/record.png")),
+              Center(child: Image.asset("assets/images/cardrecord.png")),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

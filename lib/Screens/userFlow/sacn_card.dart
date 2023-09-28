@@ -146,7 +146,7 @@ class _ScanCardState extends State<ScanCard> {
                               height: height * 0.12,
                               width: width * 0.12,
                               errorWidget: (_, __, ___) => Image.asset(
-                                'assets/images/person.png',
+                                'assets/images/profile.png',
                                 fit: BoxFit.cover,
                                 height: height * 0.12,
                                 width: width * 0.12,
@@ -181,7 +181,7 @@ class _ScanCardState extends State<ScanCard> {
                             },
                             child: CircleAvatar(
                               radius: 20,
-                              child: Image.asset('assets/images/ScanMenu.png'),
+                              child: Image.asset('assets/images/Scan.png'),
                             ),
                           ),
                         ],
@@ -189,7 +189,7 @@ class _ScanCardState extends State<ScanCard> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Image.asset("assets/images/cardimage.png"),
+                      Image.asset("assets/images/card1.png"),
                     ],
                   ),
                 ),

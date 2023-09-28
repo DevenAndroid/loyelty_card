@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 
 import '../Controller/loyalty_list_controller.dart';
@@ -46,42 +47,46 @@ class _LoyaltyCardListScreenState extends State<LoyaltyCardListScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Container(
-                                 height: 120 ,
-                                 padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(color: Color(0xFF2C91FF),borderRadius: BorderRadius.circular(10)),
-                                  child: Row(
-                                    children: [
+                                child: InkWell(
+                                  onTap: (){
+                                    Get.toNamed(MyRouters.qrCodeList);
+                                  },
+                                  child: Container(
+                                   height: 120 ,
+                                   padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(color: Color(0xFF2C91FF),borderRadius: BorderRadius.circular(10)),
+                                    child: Row(
+                                      children: [
 
-                                      ClipRRect(
-                                         borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        child: Container(
-                                          decoration: BoxDecoration(color: Colors.white),
-                                          child: CachedNetworkImage(
-                                            imageUrl: (controller.model.value.data![index].businessLogo ?? "")
-                                                .toString(),
-                                            height: 129,
-                                            width: 129,
-                                            errorWidget: (_, __, ___) => Image.asset(
-                                              'assets/images/person.png',
-                                              fit: BoxFit.cover,
+                                        ClipRRect(
+                                           borderRadius: BorderRadius.all(Radius.circular(6)),
+                                          child: Container(
+                                            decoration: BoxDecoration(color: Colors.white),
+                                            child: CachedNetworkImage(
+                                              imageUrl: (controller.model.value.data![index].businessLogo ?? "").toString(),
                                               height: 129,
                                               width: 129,
+                                              errorWidget: (_, __, ___) => Image.asset(
+                                                'assets/images/profile.png',
+                                                fit: BoxFit.cover,
+                                                height: 129,
+                                                width: 129,
+                                              ),
+                                              placeholder: (_, __) => const SizedBox(),
+                                              fit: BoxFit.cover,
                                             ),
-                                            placeholder: (_, __) => const SizedBox(),
-                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 30,),
-                                      Expanded(
-                                        child: Text(controller.model.value.data![index].businessName.toString().capitalizeFirst.toString(),style: GoogleFonts.playball(
-                                          fontSize: 48,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white
-                                        ),),
-                                      )
-                                    ],
+                                        const SizedBox(width: 30,),
+                                        Expanded(
+                                          child: Text(controller.model.value.data![index].businessName.toString().capitalizeFirst.toString(),style: GoogleFonts.playball(
+                                            fontSize: 48,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white
+                                          ),),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )

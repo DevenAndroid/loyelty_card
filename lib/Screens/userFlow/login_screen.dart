@@ -6,13 +6,15 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/models/login_model.dart';
+import 'package:loyelty_card/repositories/login%20repo.dart';
+
 import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 import 'package:loyelty_card/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../repositories/login repo.dart';
+// import '../../repositories/login repo.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
