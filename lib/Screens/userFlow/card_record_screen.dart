@@ -65,6 +65,8 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(child: Image.asset("assets/images/record.png")),
+              SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,77 +126,77 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                 ],
               ),
               const SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Add Stemps:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-                  Text(_itemCount.toString(),style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text("Add Stemps:",style: GoogleFonts.plusJakartaSans(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w600,
+              //         color: const Color(0xFF3E3E3E)),),
+              //     Text(_itemCount.toString(),style: GoogleFonts.plusJakartaSans(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400,
+              //         color: const Color(0xFF454545)),),
+              //   ],
+              // ),
               const SizedBox(height: 30,),
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: 50,
-                width: 155,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2C91FF),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-child: Row(
-  // mainAxisAlignment: MainAxisAlignment.start,
-  // crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    _itemCount!=0? Padding(
-      padding: const EdgeInsets.only(bottom: 18.0),
-      child: IconButton(icon: const Icon(Icons.remove,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount--),),
-    ):IconButton(icon:  const Icon(Icons.remove,color: Colors.white,),onPressed: (){},),
-    // InkWell(
-    //     onTap: (){_itemCount--},
-    //     child: Text(
-    //       "-",style: GoogleFonts.plusJakartaSans(
-    //         fontSize: 22,
-    //         fontWeight: FontWeight.w800,
-    //         color: Colors.white),
-    //     ),
-    // ),
-    //       const SizedBox(width: 10,),
-          Container(
-            height: 25,
-            width: 40,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(3)
-            ),
-          child: Center(
-            child: Text(
-              _itemCount.toString(),style: GoogleFonts.plusJakartaSans(
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                color: Colors.black),
-            ),
-          ),
-          ),
-    // const SizedBox(width: 10,),
-    IconButton(icon: const Icon(Icons.add,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount++)),
-    // InkWell(
-    //     onTap: (){},
-    //     child: Text(
-    //       "+",style: GoogleFonts.plusJakartaSans(
-    //         fontSize: 22,
-    //         fontWeight: FontWeight.w800,
-    //         color: Colors.white),
-    //     ),
-    // ),
-  ],
-),
-              ),
+//               Container(
+//                 padding: const EdgeInsets.all(8),
+//                 height: 50,
+//                 width: 155,
+//                 decoration: BoxDecoration(
+//                   color: const Color(0xFF2C91FF),
+//                   borderRadius: BorderRadius.circular(10)
+//                 ),
+// child: Row(
+//   // mainAxisAlignment: MainAxisAlignment.start,
+//   // crossAxisAlignment: CrossAxisAlignment.start,
+//   children: [
+//     _itemCount!=0? Padding(
+//       padding: const EdgeInsets.only(bottom: 18.0),
+//       child: IconButton(icon: const Icon(Icons.remove,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount--),),
+//     ):IconButton(icon:  const Icon(Icons.remove,color: Colors.white,),onPressed: (){},),
+//     // InkWell(
+//     //     onTap: (){_itemCount--},
+//     //     child: Text(
+//     //       "-",style: GoogleFonts.plusJakartaSans(
+//     //         fontSize: 22,
+//     //         fontWeight: FontWeight.w800,
+//     //         color: Colors.white),
+//     //     ),
+//     // ),
+//     //       const SizedBox(width: 10,),
+//           Container(
+//             height: 25,
+//             width: 40,
+//             decoration: BoxDecoration(
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.circular(3)
+//             ),
+//           child: Center(
+//             child: Text(
+//               _itemCount.toString(),style: GoogleFonts.plusJakartaSans(
+//                 fontSize: 19,
+//                 fontWeight: FontWeight.w600,
+//                 color: Colors.black),
+//             ),
+//           ),
+//           ),
+//     // const SizedBox(width: 10,),
+//     IconButton(icon: const Icon(Icons.add,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount++)),
+//     // InkWell(
+//     //     onTap: (){},
+//     //     child: Text(
+//     //       "+",style: GoogleFonts.plusJakartaSans(
+//     //         fontSize: 22,
+//     //         fontWeight: FontWeight.w800,
+//     //         color: Colors.white),
+//     //     ),
+//     // ),
+//   ],
+// ),
+//               ),
               const SizedBox(height: 10,),
               Text("No Rewards Available",style: GoogleFonts.plusJakartaSans(
                   fontSize: 14,

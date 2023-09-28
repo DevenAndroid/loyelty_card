@@ -13,6 +13,9 @@
    static const String apiBaseUrl = 'https://loyaltycard.eoxyslive.com/api/';
    static const String login = "${apiBaseUrl}login";
    static const String profile = "${apiBaseUrl}user-profile";
+   static const String loyaltyListUrl = "${apiBaseUrl}business-list";
+   static const String QRListUrl = "${apiBaseUrl}list-qrcode";
+
 
  }
 

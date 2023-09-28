@@ -1,8 +1,11 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:loyelty_card/Screens/loyalty_card_list.dart';
 
+import '../Screens/qr code list.dart';
 import '../Screens/scanner/scan.dart';
 import '../Screens/userFlow/card_record_screen.dart';
 import '../Screens/userFlow/login_screen.dart';
+import '../Screens/userFlow/qr screen.dart';
 import '../Screens/userFlow/sacn_card.dart';
 import '../Screens/userFlow/signup_screen.dart';
 import '../splash1.dart';
@@ -15,6 +18,8 @@ class MyRouters{
   static var scanQrCode = "/scanQrCode";
   static var scanCard = "/scanCard";
   static var cardRecordScreen = "/cardRecordScreen";
+  static var qrCodeList = "/qrCodeList";
+  static var qrScreen = "/qrScreen";
 
 
   static var route = [
@@ -24,6 +29,10 @@ class MyRouters{
     GetPage(name: '/scanQrCode', page: () =>   const ScanQrCode()),
     GetPage(name: '/scanCard', page: () =>   const ScanCard()),
     GetPage(name: '/cardRecordScreen', page: () =>   const CardRecordScreen()),
+    GetPage(name: LoyaltyCardListScreen.loyaltyCardListScreen, page: () =>   const LoyaltyCardListScreen()),
+    GetPage(name: '/qrCodeList', page: () =>   const QrCodeList()),
+    GetPage(name: '/qrScreen', page: () =>   const QrScreen()),
+
 
 
   ];

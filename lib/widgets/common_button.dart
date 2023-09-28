@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'common_colour.dart';
@@ -75,4 +77,44 @@ import 'common_colour.dart';
       ),
     );
   }
+}
+
+AppBar backAppBar(
+    {required title,
+      required BuildContext context,
+      String dispose = "",
+
+      Color? textColor = Colors.black,
+      Widget? icon,
+      disposeController,}) {
+  return
+    AppBar(
+      //shadowColor:  Colors.grey[400],
+      toolbarHeight: 60,
+      elevation: 0,
+      titleSpacing: 5,
+      surfaceTintColor: Colors.grey.shade300,
+      // leadingWidth: AddSize.size40 * 0.9,
+      backgroundColor: const Color(0xFF2C91FF),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            fontSize: 17,
+            color: Colors.white
+        ),
+      ),
+      leading: GestureDetector(
+          onTap: () {
+            Get.back();
+            if (dispose == "dispose") {}
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon ??
+                  const Icon(Icons.arrow_back_sharp,color: Colors.white,size: 30,)
+            ],
+          )),
+    );
 }

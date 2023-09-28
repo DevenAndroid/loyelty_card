@@ -23,13 +23,13 @@ class ProfileModel {
 }
 
 class Data {
-  int? id;
-  String? location;
-  String? name;
-  String? email;
-  String? phone;
-  String? statusPayment;
-  String? profileImage;
+  dynamic id;
+  dynamic location;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic statusPayment;
+  dynamic profileImage;
 
   Data(
       {this.id,
