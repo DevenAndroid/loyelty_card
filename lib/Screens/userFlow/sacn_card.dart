@@ -45,7 +45,9 @@ class _ScanCardState extends State<ScanCard> {
     super.initState();
     getProfile();
   }
+
   String _scanBarcode = '';
+
   Future<void> scanQR() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -65,8 +67,8 @@ class _ScanCardState extends State<ScanCard> {
     });
   }
 
-
   String _scanBarcode1 = '';
+
   Future<void> scanQR1() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -85,6 +87,7 @@ class _ScanCardState extends State<ScanCard> {
       _scanBarcode1 = barcodeScanRes;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -97,12 +100,14 @@ class _ScanCardState extends State<ScanCard> {
           children: [
             InkWell(
                 onTap: () {
-                 Get.toNamed(LoyaltyCardListScreen.loyaltyCardListScreen);
+                  Get.toNamed(LoyaltyCardListScreen.loyaltyCardListScreen);
                 },
                 child: const CustomOutlineBoder2(
                   title: 'LOYALTY CARD LIST',
                 )),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             InkWell(
                 onTap: () {
                   Get.toNamed(MyRouters.qrCodeList);
@@ -110,7 +115,9 @@ class _ScanCardState extends State<ScanCard> {
                 child: const CustomOutlineBoder2(
                   title: 'QR CARD LIST',
                 )),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             InkWell(
                 onTap: () {
                   scanQR1();
@@ -135,34 +142,43 @@ class _ScanCardState extends State<ScanCard> {
                         height: 30,
                       ),
                       Row(
-                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Image.network(profileModel.value.data!.profileImage.toString()),
                           CircleAvatar(
                             radius: 20,
-                            child: CachedNetworkImage(
-                              imageUrl: (profileModel.value.data!.profileImage?? "").toString(),
-
-                              height: height * 0.12,
-                              width: width * 0.12,
-                              errorWidget: (_, __, ___) => Image.asset(
-                                'assets/images/profile.png',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    (profileModel.value.data!.profileImage ??
+                                            "")
+                                        .toString(),
+                                height: height * 0.13,
+                                width: width * 0.13,
+                                errorWidget: (_, __, ___) => Image.asset(
+                                  'assets/images/profile.png',
+                                  fit: BoxFit.cover,
+                                  height: height * 0.12,
+                                  width: width * 0.12,
+                                ),
+                                placeholder: (_, __) => const SizedBox(),
                                 fit: BoxFit.cover,
-                                height: height * 0.12,
-                                width: width * 0.12,
                               ),
-                              placeholder: (_, __) => const SizedBox(),
-                              fit: BoxFit.cover,
                             ),
                           ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Logged in as:",
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 15, fontWeight: FontWeight.w400, color: const Color(0xFF33454D)),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFF33454D)),
                               ),
                               const SizedBox(
                                 height: 2,
@@ -170,15 +186,17 @@ class _ScanCardState extends State<ScanCard> {
                               Text(
                                 profileModel.value.data!.name.toString(),
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xFF0073DA)),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF0073DA)),
                               ),
                             ],
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               scanQR();
-                            },
+                            }, 
                             child: CircleAvatar(
                               radius: 20,
                               child: Image.asset('assets/images/Scan.png'),
@@ -196,7 +214,7 @@ class _ScanCardState extends State<ScanCard> {
               )
             : statusOfProfile.value.isError
                 ? CommonErrorWidget(
-                    errorText: profileModel.value.message.toString(),
+          errorText: profileModel.value.message.toString(),
                     onTap: () {
                       getProfile();
                     },

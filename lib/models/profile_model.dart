@@ -1,15 +1,18 @@
-class ProfileModel {
+ class ProfileModel {
   bool? status;
-  String? message;
+  String?message;
   Data? data;
 
+
   ProfileModel({this.status, this.message, this.data});
+
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -20,9 +23,10 @@ class ProfileModel {
     }
     return data;
   }
-}
+ }
 
-class Data {
+
+ class Data {
   dynamic id;
   dynamic location;
   dynamic name;
@@ -30,6 +34,7 @@ class Data {
   dynamic phone;
   dynamic statusPayment;
   dynamic profileImage;
+
 
   Data(
       {this.id,
@@ -40,6 +45,7 @@ class Data {
         this.statusPayment,
         this.profileImage});
 
+
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     location = json['location'];
@@ -49,6 +55,7 @@ class Data {
     statusPayment = json['status_payment'];
     profileImage = json['profile_image'];
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -61,4 +68,4 @@ class Data {
     data['profile_image'] = this.profileImage;
     return data;
   }
-}
+ }
