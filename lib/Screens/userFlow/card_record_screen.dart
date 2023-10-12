@@ -35,9 +35,15 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
   }
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
+      floatingActionButton:  Padding(
+        padding: const EdgeInsets.only(bottom: 150.0,right: 10),
+        child: FloatingActionButton(onPressed: () {  },child: Image.asset("assets/images/stamps.png"),backgroundColor: Colors.white,elevation: 0,),
+      ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2C91FF),
+
         leading: InkWell(
             onTap: (){
               Get.back();
