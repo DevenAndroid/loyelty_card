@@ -1,6 +1,9 @@
+import 'dart:developer';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/widgets/common_boder_button.dart';
@@ -15,24 +18,69 @@ class CardRecordScreen extends StatefulWidget {
 
 class _CardRecordScreenState extends State<CardRecordScreen> {
   int _itemCount = 0;
-  String _scanBarcode = '';
-  Future<void> scanQR() async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      debugPrint(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
+  // String _scanBarcode = '';
+  // Future<void> scanQR() async {
+  //   String barcodeScanRes;
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //         '#ff6666', 'Cancel', true, ScanMode.QR);
+  //     debugPrint(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
+  //
+  //   if (!mounted) return;
+  //
+  //   setState(() {
+  //     _scanBarcode = barcodeScanRes;
+  //   });
+  // }
+  var recordEmail = Get.arguments[0];
+  var recordName = Get.arguments[1];
+  var recordRemainStamp = Get.arguments[2];
+  var recordStamp = Get.arguments[3];
+  int countOnes1 = 0;
 
-    if (!mounted) return;
+  // var myInt = int.parse('12345');
+  void main() {
+    var myInt = int.parse(recordStamp.toString());
+    int number = myInt; // Replace this with the integer you want to convert
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    // Convert the integer to binary
+    String binaryRepresentation = number.toRadixString(2);
+
+    // Calculate the number of '1's in the binary representation
+    // countOnes1 = binaryRepresentation
+    //     .split('')
+    //     .where((char) => char == '1')
+    //     .length;
+    countOnes1 = binaryRepresentation.split("").map((e) => int.tryParse(e) ?? 0).toList().sum;
+    log("binaryRepresentation....     ${binaryRepresentation}");
+
+    // print('Number of 1s in the binary representation: $countOnes');
   }
+
+
+  int countOnes(String binaryString) {
+    int count = 0;
+    for (int i = 0; i < binaryString.length; i++) {
+      if (binaryString[i] == '1') {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    main();
+  }
+
+  int get finalInt => countOnes1+ _itemCount;
+
   @override
   Widget build(BuildContext context) {
 
@@ -71,8 +119,58 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: Image.asset("assets/images/cardrecord.png")),
-              SizedBox(height: 20,),
+
+              Container(
+                padding: const EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE1C8A0),
+                  borderRadius: BorderRadius.circular(10)
+
+                ),
+                  child: Column(
+                    children: [
+                      GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5
+                      ),
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          itemBuilder: (c,i){
+                       return GestureDetector(
+                         onTap: (){
+                           _itemCount = i+1;
+                           setState(() {});
+                         },
+                         child: finalInt < i+1 ?
+                         Image.asset("assets/images/cup.png",width: 60,height: 60,) :
+                         SvgPicture.asset("assets/images/cup1.svg",width: 60,height: 60,),
+                       );
+                      }),
+                      // Row(
+                      //   children: [
+                      //     SvgPicture.asset("assets/images/cup1.svg",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 7,),
+                      // Row(
+                      //   children: [
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //     Image.asset("assets/images/cup.png",width: 60,height: 60,),
+                      //   ],
+                      // ),
+                    ],
+                  )
+              ),
+
+              const SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +179,23 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF3E3E3E)),),
-                  Text("Pradeep Kumar",style: GoogleFonts.plusJakartaSans(
+
+                  Text(recordName,style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF454545)),),
+                ],
+              ),
+              const SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Email:",style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF3E3E3E)),),
+                  Text(recordEmail,style: GoogleFonts.plusJakartaSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFF454545)),),
@@ -96,135 +210,200 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF3E3E3E)),),
-                  Text("15",style: GoogleFonts.plusJakartaSans(
+                  Text(recordRemainStamp,style: GoogleFonts.plusJakartaSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFF454545)),),
                 ],
               ),
-              const SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Rewards Available:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-                  Text("0",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
-                ],
-              ),
-              const SizedBox(height: 15,),  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Last Visit:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-                  Text("2023-08-28 15:26",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
-                ],
-              ),
-              const SizedBox(height: 15,),
+              // const SizedBox(height: 15,),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: [
-              //     Text("Add Stemps:",style: GoogleFonts.plusJakartaSans(
+              //     Text("Rewards Available:",style: GoogleFonts.plusJakartaSans(
               //         fontSize: 16,
               //         fontWeight: FontWeight.w600,
               //         color: const Color(0xFF3E3E3E)),),
-              //     Text(_itemCount.toString(),style: GoogleFonts.plusJakartaSans(
+              //     Text("0",style: GoogleFonts.plusJakartaSans(
               //         fontSize: 16,
               //         fontWeight: FontWeight.w400,
               //         color: const Color(0xFF454545)),),
               //   ],
               // ),
-              const SizedBox(height: 30,),
-//               Container(
-//                 padding: const EdgeInsets.all(8),
-//                 height: 50,
-//                 width: 155,
-//                 decoration: BoxDecoration(
-//                   color: const Color(0xFF2C91FF),
-//                   borderRadius: BorderRadius.circular(10)
-//                 ),
-// child: Row(
-//   // mainAxisAlignment: MainAxisAlignment.start,
-//   // crossAxisAlignment: CrossAxisAlignment.start,
-//   children: [
-//     _itemCount!=0? Padding(
-//       padding: const EdgeInsets.only(bottom: 18.0),
-//       child: IconButton(icon: const Icon(Icons.remove,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount--),),
-//     ):IconButton(icon:  const Icon(Icons.remove,color: Colors.white,),onPressed: (){},),
-//     // InkWell(
-//     //     onTap: (){_itemCount--},
-//     //     child: Text(
-//     //       "-",style: GoogleFonts.plusJakartaSans(
-//     //         fontSize: 22,
-//     //         fontWeight: FontWeight.w800,
-//     //         color: Colors.white),
-//     //     ),
-//     // ),
-//     //       const SizedBox(width: 10,),
-//           Container(
-//             height: 25,
-//             width: 40,
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(3)
-//             ),
-//           child: Center(
-//             child: Text(
-//               _itemCount.toString(),style: GoogleFonts.plusJakartaSans(
-//                 fontSize: 19,
-//                 fontWeight: FontWeight.w600,
-//                 color: Colors.black),
-//             ),
-//           ),
-//           ),
-//     // const SizedBox(width: 10,),
-//     IconButton(icon: const Icon(Icons.add,color: Colors.white,),onPressed: ()=>setState(()=>_itemCount++)),
-//     // InkWell(
-//     //     onTap: (){},
-//     //     child: Text(
-//     //       "+",style: GoogleFonts.plusJakartaSans(
-//     //         fontSize: 22,
-//     //         fontWeight: FontWeight.w800,
-//     //         color: Colors.white),
-//     //     ),
-//     // ),
-//   ],
-// ),
-//               ),
-              const SizedBox(height: 10,),
-              Text("No Rewards Available",style: GoogleFonts.plusJakartaSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF3E3E3E)),),
+              // const SizedBox(height: 15,),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text(
+              //       "Last Visit:",
+              //       style: GoogleFonts.plusJakartaSans(
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.w600,
+              //           color: const Color(0xFF3E3E3E)),
+              //     ),
+              //     Text(
+              //       "2023-08-28 15:26",
+              //       style: GoogleFonts.plusJakartaSans(
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.w400,
+              //           color: const Color(0xFF454545)),
+              //     ),
+              //   ],
+              // ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Add Stemps:",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF3E3E3E)),
+                  ),
+                  Text(
+                    _itemCount.toString(),
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF454545)),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                height: 50,
+                width: 155,
+                decoration: BoxDecoration(
+                    color: const Color(0xFF2C91FF),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _itemCount != 0
+                        ? InkWell(
+                      onTap: (){
+                        _itemCount--;
+                        setState(() {
 
-             InkWell(
-               onTap: () async {
-    final Uri url = Uri.parse(_scanBarcode);
-    try {
-    await launchUrl(url,
-    mode: LaunchMode
-        .externalApplication);
-    } catch (e) {
-    throw Exception(e);
-    }
-    OpenFilex.open(url.path);
-    },
+                        });
+                      },
+                          child: Padding(
+                              padding: const EdgeInsets.only(bottom: 18.0),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => setState(() => _itemCount--),
+                              ),
+                            ),
+                        )
+                        : IconButton(
+                            icon: const Icon(
+                              Icons.remove,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {},
+                          ),
+                    // InkWell(
+                    //     onTap: (){_itemCount--},
+                    //     child: Text(
+                    //       "-",style: GoogleFonts.plusJakartaSans(
+                    //         fontSize: 22,
+                    //         fontWeight: FontWeight.w800,
+                    //         color: Colors.white),
+                    //     ),
+                    // ),
+                    //       const SizedBox(width: 10,),
+                    Container(
+                      height: 25,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Center(
+                        child: Text(
+                          _itemCount.toString(),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    // const SizedBox(width: 10,),
+                    finalInt != 10?
+                    InkWell(
+                      onTap: (){
+                        _itemCount++;
+                        setState(() {
 
-               child: Text(' $_scanBarcode\n',
-                   style: const TextStyle(fontSize: 20,decoration: TextDecoration.underline),),
-             )
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 18.0),
+                        child: IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () => setState(() => _itemCount++)),
+                      ),
+                    ) : IconButton(
+    icon: const Icon(
+    Icons.add,
+    color: Colors.white,
+    ),
+    onPressed: () {},
+    ),
+                    // InkWell(
+                    //     onTap: (){},
+                    //     child: Text(
+                    //       "+",style: GoogleFonts.plusJakartaSans(
+                    //         fontSize: 22,
+                    //         fontWeight: FontWeight.w800,
+                    //         color: Colors.white),
+                    //     ),
+                    // ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "No Rewards Available",
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF3E3E3E)),
+              ),
+              // InkWell(
+              //   onTap: () async {
+              //     final Uri url = Uri.parse(_scanBarcode);
+              //     try {
+              //       await launchUrl(url, mode: LaunchMode.externalApplication);
+              //     } catch (e) {
+              //       throw Exception(e);
+              //     }
+              //     OpenFilex.open(url.path);
+              //   },
+              //   child: Text(
+              //     ' $_scanBarcode\n',
+              //     style: const TextStyle(
+              //         fontSize: 20, decoration: TextDecoration.underline),
+              //   ),
+              // )
             ],
           ),
         ),

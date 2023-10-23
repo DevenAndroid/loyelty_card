@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/Screens/loyalty_card_list.dart';
 import 'package:loyelty_card/models/profile_model.dart';
+import 'package:loyelty_card/models/qr_details_model.dart';
+import 'package:loyelty_card/repositories/qr_details_repo.dart';
 import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/circular_progressindicator.dart';
@@ -38,6 +40,20 @@ class _ScanCardState extends State<ScanCard> {
       }
     });
   }
+
+  Rx<RxStatus> statusOfQr = RxStatus.empty().obs;
+  Rx<QrDetailsModel> qRDetails = QrDetailsModel().obs;
+
+  getDetails() {
+    getQrDetailsRepo(ids: _scanBarcode2).then((value) {
+    
+        qRDetails.value = value;
+        statusOfProfile.value = RxStatus.success();
+        Get.toNamed(MyRouters.cardRecordScreen,arguments: [qRDetails.value.person!.emailAddress.toString(),qRDetails.value.person!.displayName.toString(),qRDetails.value.metaData!.remainingpoints.toString(),qRDetails.value.metaData!.stampStatus.toString()]);
+        showToast("Ids j;:::::::::");
+      }
+    ); }
+    
 
   @override
   void initState() {
@@ -75,16 +91,45 @@ class _ScanCardState extends State<ScanCard> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR);
-      Get.toNamed(MyRouters.cardRecordScreen);
+
+      // Get.toNamed(MyRouters.cardRecordScreen,arguments: [ print(_scanBarcode1.toString())]);
       debugPrint(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
+      print(_scanBarcode1.toString());
     }
 
     if (!mounted) return;
 
     setState(() {
       _scanBarcode1 = barcodeScanRes;
+    });
+  }
+  String _scanBarcode2 = 'Unknown';
+  /// For Continuous scan
+  Future<void> startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
+  }
+  Future<void> barcodeScan() async {
+    String barcodeScanRes;
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      getDetails();
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
+    setState(() {
+      _scanBarcode2 = barcodeScanRes;
+
+      getDetails();
+
     });
   }
 
@@ -208,6 +253,25 @@ class _ScanCardState extends State<ScanCard> {
                         height: 30,
                       ),
                       Image.asset("assets/images/card1.png"),
+
+                      Text('Scan result : $_scanBarcode2\n',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 45,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.cyan,
+                            ),
+                            onPressed: () => barcodeScan(),
+                            child: const Text('Barcode Scan',
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold))),
+                      ),
+
+
+
+
                     ],
                   ),
                 ),
