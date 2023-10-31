@@ -97,7 +97,7 @@ class Helpers {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LoadingAnimationWidget.threeArchedCircle(
-                  color: AppTheme.primaryColor, size: AddSize.size40),
+                  color: AppTheme.secondaryColor, size: AddSize.size40),
             ],
           ),
         ),
