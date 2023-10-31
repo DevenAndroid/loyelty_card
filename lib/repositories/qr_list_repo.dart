@@ -11,7 +11,7 @@ import '../resourses/api_constant.dart';
 Future<QRListModel> qrListRepo() async {
   try {
     http.Response response = await http.get(
-      Uri.parse("${ApiUrls.QRListUrl}"),
+      Uri.parse(ApiUrls.QRListUrl),
       headers: await getAuthHeader(),
     );
     log(response.body);

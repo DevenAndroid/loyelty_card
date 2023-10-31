@@ -64,13 +64,13 @@ class _LoyaltyCardListScreenState extends State<LoyaltyCardListScreen> {
                                             decoration: BoxDecoration(color: Colors.white),
                                             child: CachedNetworkImage(
                                               imageUrl: (controller.model.value.data![index].businessLogo ?? "").toString(),
-                                              height: 129,
-                                              width: 129,
+                                              height: 110,
+                                              width: 110,
                                               errorWidget: (_, __, ___) => Image.asset(
                                                 'assets/images/profile.png',
                                                 fit: BoxFit.cover,
-                                                height: 129,
-                                                width: 129,
+                                                height: 110,
+                                                width: 110,
                                               ),
                                               placeholder: (_, __) => const SizedBox(),
                                               fit: BoxFit.cover,
@@ -80,7 +80,7 @@ class _LoyaltyCardListScreenState extends State<LoyaltyCardListScreen> {
                                         const SizedBox(width: 30,),
                                         Expanded(
                                           child: Text(controller.model.value.data![index].businessName.toString().capitalizeFirst.toString(),style: GoogleFonts.playball(
-                                            fontSize: 48,
+                                            fontSize: 30,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white
                                           ),),

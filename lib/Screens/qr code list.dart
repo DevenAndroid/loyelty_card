@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
+import 'package:loyelty_card/widgets/circular_progressindicator.dart';
+import 'package:loyelty_card/widgets/common_error_widget.dart';
 
 import '../Controller/qr_list_controller.dart';
 import '../widgets/common_button.dart';
@@ -37,7 +39,7 @@ class _QrCodeListState extends State<QrCodeList> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  controller.isDataLoading.value && controller.qrModel.value.data != null ?
+                  controller.statusOfQr.value.isSuccess&& controller.qrModel.value.data != null  ?
                   SingleChildScrollView(
                     child: ListView.builder(
 
@@ -47,6 +49,7 @@ class _QrCodeListState extends State<QrCodeList> {
                         itemBuilder: (BuildContext context, int index) {
                           return Column(
                             children: [
+
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                 child: InkWell(
@@ -91,7 +94,12 @@ class _QrCodeListState extends State<QrCodeList> {
                           );
                         }),
                   )
-                      : const Center(child: CircularProgressIndicator())
+
+
+
+                  : controller.statusOfQr.value.isError
+              ? Center(child: Text("No data found",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),))
+              : const CommonProgressIndicator()
                 ],
               ),
             ),

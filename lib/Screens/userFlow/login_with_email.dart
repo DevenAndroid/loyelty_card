@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loyelty_card/Controller/qr_list_controller.dart';
 import 'package:loyelty_card/Screens/loyalty_card_list.dart';
 import 'package:loyelty_card/models/model_logout.dart';
 import 'package:loyelty_card/models/profile_model.dart';
@@ -22,15 +23,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../repositories/get_profile_repo.dart';
 import '../../widgets/common_textfield.dart';
 
-class ScanCard extends StatefulWidget {
-  const ScanCard({super.key});
+class LoginEmail extends StatefulWidget {
+  const LoginEmail({super.key});
 
   @override
-  State<ScanCard> createState() => _ScanCardState();
+  State<LoginEmail> createState() => _LoginEmailState();
 }
 
-class _ScanCardState extends State<ScanCard> {
-  final controller = Get.put(QrListController());
+class _LoginEmailState extends State<LoginEmail> {
   Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
   Rx<ProfileModel> profileModel = ProfileModel().obs;
 
@@ -73,13 +73,13 @@ class _ScanCardState extends State<ScanCard> {
     getQrDetailsRepo(ids: _scanBarcode2).then((value) {
       qRDetails.value = value;
       statusOfProfile.value = RxStatus.success();
+
       Get.toNamed(MyRouters.cardRecordScreen, arguments: [
         qRDetails.value.person!.emailAddress.toString(),
         qRDetails.value.person!.displayName.toString(),
         qRDetails.value.metaData!.remainingpoints.toString(),
         qRDetails.value.metaData!.stampStatus.toString()
       ]);
-
     });
   }
 
@@ -90,7 +90,6 @@ class _ScanCardState extends State<ScanCard> {
     setState(() {});
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -100,40 +99,34 @@ class _ScanCardState extends State<ScanCard> {
     getStaffName();
   }
 
-
-
   String _scanBarcode2 = 'Unknown';
 
   /// For Continuous scan
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             '#ff6666', '', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
+        .listen((barcode) =>getDetails());
+    getDetails();
   }
 
   Future<void> barcodeScan() async {
-    String? barcodeScanRes;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    String barcodeScanRes;
+    getDetails();
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', '', true, ScanMode.QR);
-
-
-      print(barcodeScanRes);
       getDetails();
+      print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
     if (!mounted)   getDetails();
     setState(() {
-      _scanBarcode2 = barcodeScanRes!;
-      // controller.getToken();
+      _scanBarcode2 = barcodeScanRes;
       getDetails();
+      print(_scanBarcode2);
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +162,7 @@ class _ScanCardState extends State<ScanCard> {
                 onTap: () {
                   controller.getToken();
                   // barcodeScan();
-                  Get.toNamed(MyRouters.scannerScreen);
-                  // Get.toNamed(MyRouters.scannerScreen);
-                  // Get.toNamed(MyRouters.cardRecordScreen);
+          Get.toNamed(MyRouters.scannerScreen);
                 },
                 child: const CustomOutlineBoder(
                   title: 'SCAN CARD',
@@ -224,9 +215,7 @@ class _ScanCardState extends State<ScanCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
-                                onTap: () {
-
-                                },
+                                onTap: () {},
                                 child: Text(
                                   "Logged in as:",
                                   style: GoogleFonts.plusJakartaSans(
@@ -239,7 +228,7 @@ class _ScanCardState extends State<ScanCard> {
                                 height: 2,
                               ),
                               Text(
-                                staffName.toString(),
+                                profileModel.value.data!.name.toString(),
                                 style: GoogleFonts.plusJakartaSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -249,9 +238,8 @@ class _ScanCardState extends State<ScanCard> {
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () {
-                              controller.getToken();
-                              Get.toNamed(MyRouters.scannerScreen);
+                            onTap: () {    controller.getToken();
+                            Get.toNamed(MyRouters.scannerScreen);
                             },
                             child: CircleAvatar(
                               radius: 20,

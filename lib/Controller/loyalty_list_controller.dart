@@ -1,8 +1,9 @@
 
 import 'package:get/get.dart';
+import 'package:loyelty_card/models/loyalty_list_model.dart';
 import 'package:loyelty_card/repositories/loyalty_list_repo.dart';
 
-import '../models/loyalty_list_model.dart';
+
 
 class LoyaltyListController extends GetxController{
   RxBool isDataLoading = false.obs;
