@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login_model.dart';
 
 import '../resourses/api_constant.dart';
@@ -9,13 +10,15 @@ import '../resourses/helper.dart';
 
 
 
-Future<LoginModel> loginRepo({email,context,password}) async {
+Future<LoginModel> loginRepo({email,context,password,required String fcmToken}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
-
+  SharedPreferences pref = await SharedPreferences.getInstance();
   map['email'] = email;
   map['password'] = password;
+  map['device_id'] = pref.getString("deviceId");
+  map['device_token'] = fcmToken;
 
 
   print(map);

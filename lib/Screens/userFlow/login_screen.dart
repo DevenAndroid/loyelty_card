@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -6,14 +11,14 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/models/login_model.dart';
+import 'package:loyelty_card/models/model_qr_login.dart';
 import 'package:loyelty_card/repositories/login%20repo.dart';
-
 import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 import 'package:loyelty_card/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:client_information/client_information.dart';
 // import '../../repositories/login repo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,14 +30,87 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  String _scanBarcode2 = 'Unknown';
+  String str = '';
+  void removeLastString() {
+    str = "XQ#d%wLHuv2Vt\$#123456783n85Q#\$Luzc!VAA";
+
+    // String result1 = str.substring(15, str.length  -15);
+
+    // print(result1);
+  }
+  ModelQrLogin qRLogin = ModelQrLogin();
+  /// For Continuous scan
+  Future<void> startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
+  }
+
+  Future<void> barcodeScan() async {
+    String? barcodeScanRes;
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR).then((value) async {
+            var response = jsonDecode(value);
+            str = response["password"];
+            log(str);
+            String result = str.substring(15, str.length - 15);
+            log(result);
+            log(response["email"]);
+            var fcmToken =
+                await FirebaseMessaging.instance.getToken();
+            loginRepo(
+              context: context,
+              password: result,
+              email: response["email"], fcmToken: fcmToken!,
+
+            ).then((value) async {
+              login.value = value;
+              if (value.status == true) {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                pref.setString('cookieOne', value.authToken.toString());
+
+                // Get.offAllNamed(MyRouters.scanCard);
+                Get.offAllNamed(MyRouters.staffListScreen);
+                statusOfLogin.value = RxStatus.success();
+                showToast(value.message.toString());
+              } else {
+                statusOfLogin.value = RxStatus.error();
+                showToast(value.message.toString());
+              }
+            });
+            return null;
+      });
+
+      if (kDebugMode) {
+        print(barcodeScanRes!);
+      }
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
+    setState(() {
+      _scanBarcode2 = barcodeScanRes!;
+
+
+
+    });
+  }
   final formKey6 = GlobalKey<FormState>();
   Rx<RxStatus> statusOfLogin = RxStatus.empty().obs;
   Rx<LoginModel> login = LoginModel().obs;
   TextEditingController emailNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  loginCode() {
+  loginCode() async {
+    var fcmToken =
+        await FirebaseMessaging.instance.getToken();
+    print("etryytgghrg"+fcmToken!);
     if (formKey6.currentState!.validate()) {
       loginRepo(
+        fcmToken: fcmToken!,
         context: context,
         password: passwordController.text.trim(),
         email: emailNoController.text.trim(),
@@ -42,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SharedPreferences pref = await SharedPreferences.getInstance();
 
           pref.setString('cookie', value.authToken.toString());
-          Get.offAllNamed(MyRouters.scanCard);
+          Get.offAllNamed(MyRouters.loginEmail);
           statusOfLogin.value = RxStatus.success();
           showToast(value.message.toString());
         } else {
@@ -155,6 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 30,
                         ),
+
                         InkWell(
                           onTap: () {
                             loginCode();
@@ -163,6 +242,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const CustomOutlineButton(
                             title: "Login",
                             backgroundColor: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 10,)
+,                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ElevatedButton(onPressed: (){barcodeScan();}, child: Text("Staff Login" ,style:GoogleFonts.plusJakartaSans(
+                            color:  Color(
+                            0xFF2C91FF),
+                                fontSize: 18,
+                                fontWeight:
+                                FontWeight
+                                    .w700),), style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side:  BorderSide(
+                                  color:  Colors.white,
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
+                                    )),
+
+                                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black
+                                )),),
                           ),
                         )
                       ],

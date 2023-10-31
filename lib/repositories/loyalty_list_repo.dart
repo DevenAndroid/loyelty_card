@@ -10,7 +10,7 @@ import '../resourses/api_constant.dart';
 Future<LoyaltyListModel> loyaltyCardList() async {
   try {
     http.Response response = await http.get(
-      Uri.parse("${ApiUrls.loyaltyListUrl}"),
+      Uri.parse(ApiUrls.loyaltyListUrl),
       headers: await getAuthHeader(),
     );
   log(response.body);

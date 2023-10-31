@@ -6,9 +6,14 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loyelty_card/models/updateQrScan_model.dart';
+import 'package:loyelty_card/repositories/update_qr_scan_repo.dart';
+import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/widgets/common_boder_button.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class CardRecordScreen extends StatefulWidget {
   const CardRecordScreen({super.key});
 
@@ -18,31 +23,42 @@ class CardRecordScreen extends StatefulWidget {
 
 class _CardRecordScreenState extends State<CardRecordScreen> {
   int _itemCount = 0;
-  // String _scanBarcode = '';
-  // Future<void> scanQR() async {
-  //   String barcodeScanRes;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-  //         '#ff6666', 'Cancel', true, ScanMode.QR);
-  //     debugPrint(barcodeScanRes);
-  //   } on PlatformException {
-  //     barcodeScanRes = 'Failed to get platform version.';
-  //   }
-  //
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     _scanBarcode = barcodeScanRes;
-  //   });
-  // }
+
   var recordEmail = Get.arguments[0];
   var recordName = Get.arguments[1];
   var recordRemainStamp = Get.arguments[2];
   var recordStamp = Get.arguments[3];
   int countOnes1 = 0;
 
-  // var myInt = int.parse('12345');
+  dynamic staffName = "";
+  dynamic staffId = "";
+
+  getStaffName() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    staffName = pref.getString('staffName');
+    staffId = pref.getString('staffId');
+    setState(() {});
+  }
+
+  Rx<RxStatus> statusOfUpdate = RxStatus.empty().obs;
+  Rx<ModelQRUpdate> update = ModelQRUpdate().obs;
+
+  updateQr() {
+    getUpdateRepo(id: staffId.toString(), context: context).then((value) async {
+      if (value.status!) {
+        update.value = value;
+        statusOfUpdate.value = RxStatus.success();
+        print("staffid :::::::::::::::::" + staffId.toString());
+        showToast(value.message.toString());
+
+        // Get.offAllNamed(MyRouters.loginScreen);
+      } else {
+        statusOfUpdate.value = RxStatus.error();
+        showToast(value.message.toString());
+      }
+    });
+  }
+
   void main() {
     var myInt = int.parse(recordStamp.toString());
     int number = myInt; // Replace this with the integer you want to convert
@@ -50,15 +66,12 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     // Convert the integer to binary
     String binaryRepresentation = number.toRadixString(2);
 
-    // Calculate the number of '1's in the binary representation
-    // countOnes1 = binaryRepresentation
-    //     .split('')
-    //     .where((char) => char == '1')
-    //     .length;
-    countOnes1 = binaryRepresentation.split("").map((e) => int.tryParse(e) ?? 0).toList().sum;
+    countOnes1 = binaryRepresentation
+        .split("")
+        .map((e) => int.tryParse(e) ?? 0)
+        .toList()
+        .sum;
     log("binaryRepresentation....     ${binaryRepresentation}");
-
-    // print('Number of 1s in the binary representation: $countOnes');
   }
 
 
@@ -77,6 +90,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     // TODO: implement initState
     super.initState();
     main();
+    getStaffName();
   }
 
   int get finalInt => countOnes1+ _itemCount;
@@ -86,8 +100,15 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
 
     return  Scaffold(
       floatingActionButton:  Padding(
-        padding: const EdgeInsets.only(bottom: 150.0,right: 10),
-        child: FloatingActionButton(onPressed: () {  },child: Image.asset("assets/images/stamps.png"),backgroundColor: Colors.white,elevation: 0,),
+        padding: const EdgeInsets.only(bottom: 150.0, right: 10),
+        child: FloatingActionButton(
+          onPressed: () {
+            updateQr();
+          },
+          child: Image.asset("assets/images/stamps.png"),
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2C91FF),

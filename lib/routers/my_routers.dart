@@ -1,5 +1,8 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:loyelty_card/Screens/loyalty_card_list.dart';
+import 'package:loyelty_card/Screens/userFlow/login_with_email.dart';
+import 'package:loyelty_card/Screens/userFlow/scanner_sceen.dart';
+import 'package:loyelty_card/Screens/userFlow/staff_list.dart';
 
 import '../Screens/qr code list.dart';
 import '../Screens/scanner/scan.dart';
@@ -20,6 +23,9 @@ class MyRouters{
   static var cardRecordScreen = "/cardRecordScreen";
   static var qrCodeList = "/qrCodeList";
   static var qrScreen = "/qrScreen";
+  static var staffListScreen = "/staffListScreen";
+  static var loginEmail = "/loginEmail";
+  static var scannerScreen = "/scannerScreen";
 
 
   static var route = [
@@ -32,6 +38,9 @@ class MyRouters{
     GetPage(name: LoyaltyCardListScreen.loyaltyCardListScreen, page: () =>   const LoyaltyCardListScreen()),
     GetPage(name: '/qrCodeList', page: () =>   const QrCodeList()),
     GetPage(name: '/qrScreen', page: () =>   const QrScreen()),
+    GetPage(name: '/staffListScreen', page: () =>   const StaffListScreen()),
+    GetPage(name: '/loginEmail', page: () =>   const LoginEmail()),
+    GetPage(name: '/scannerScreen', page: () =>   const ScannerScreen()),
 
 
 

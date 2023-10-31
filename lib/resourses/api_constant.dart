@@ -10,11 +10,15 @@
 
 
  class ApiUrls {
-   static const String apiBaseUrl = 'https://loyaltycard.eoxyslive.com/api/';
+   static const String apiBaseUrl = 'https://loyaltycardgenerator.com/backend/api/';
    static const String login = "${apiBaseUrl}login";
    static const String profile = "${apiBaseUrl}user-profile";
    static const String loyaltyListUrl = "${apiBaseUrl}business-list";
    static const String QRListUrl = "${apiBaseUrl}list-qrcode";
+   static const String logout = "${apiBaseUrl}logout";
+   static const String createToken = "${apiBaseUrl}create-token";
+   static const String staffList = "${apiBaseUrl}staff-list";
+   static const String updateScan = "${apiBaseUrl}update-scan?staff_id=";
 
 
  }
@@ -29,6 +33,8 @@
      // HttpHeaders.authorizationHeader:"FLWSECK_TEST-SANDBOXDEMOKEY-X"
      if(pref.getString("cookie") != null)
        HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
+     if(pref.getString("cookieOne") != null)
+       HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookieOne")!.toString().replaceAll('\"', '')}',
    };
    print(gg);
    return gg;

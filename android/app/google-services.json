@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824464197980",
+    "project_id": "loyalty-card-6bd21",
+    "storage_bucket": "loyalty-card-6bd21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824464197980:android:9fa035f572a5c60a3d1999",
+        "android_client_info": {
+          "package_name": "com.example.loyelty_card"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe77AhFjLBddK2EJn4ywP5PcUG0CEpePI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
