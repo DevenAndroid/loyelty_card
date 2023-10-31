@@ -1,4 +1,4 @@
-package com.example.loyelty_card
+package com.loyeltyCard
 
 import io.flutter.embedding.android.FlutterActivity
 
