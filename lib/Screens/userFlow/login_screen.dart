@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -60,12 +60,18 @@ class _LoginScreenState extends State<LoginScreen> {
             String result = str.substring(15, str.length - 15);
             log(result);
             log(response["email"]);
-            var fcmToken =
-                await FirebaseMessaging.instance.getToken();
+            var fcmToken;
+            if(Platform.isIOS){
+              fcmToken = "agfjshfgsdh";
+            }
+            else{
+              fcmToken = await FirebaseMessaging.instance.getToken();
+            }
             loginRepo(
               context: context,
               password: result,
-              email: response["email"], fcmToken: fcmToken!,
+              email: response["email"],
+              fcmToken: fcmToken!,
 
             ).then((value) async {
               login.value = value;
@@ -99,14 +105,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
     });
   }
+
   final formKey6 = GlobalKey<FormState>();
   Rx<RxStatus> statusOfLogin = RxStatus.empty().obs;
   Rx<LoginModel> login = LoginModel().obs;
   TextEditingController emailNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   loginCode() async {
-    var fcmToken =
-        await FirebaseMessaging.instance.getToken();
+
+    var fcmToken;
+    if(Platform.isIOS){
+      fcmToken = "agfjshfgsdh";
+    }
+    else{
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    }
     print("etryytgghrg"+fcmToken!);
     if (formKey6.currentState!.validate()) {
       loginRepo(
