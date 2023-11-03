@@ -215,7 +215,9 @@ class _LoginEmailState extends State<LoginEmail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+
+                                },
                                 child: Text(
                                   "Logged in as:",
                                   style: GoogleFonts.plusJakartaSans(
