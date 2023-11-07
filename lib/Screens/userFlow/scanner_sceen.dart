@@ -27,10 +27,19 @@ class _ScannerScreenState extends State<ScannerScreen> {
       qRDetails.value = value;
       statusOfQr.value = RxStatus.success();
       Get.toNamed(MyRouters.cardRecordScreen, arguments: [
+
         qRDetails.value.person!.emailAddress.toString(),
         qRDetails.value.person!.displayName.toString(),
         qRDetails.value.metaData!.remainingpoints.toString(),
-        qRDetails.value.metaData!.stampStatus.toString()
+        qRDetails.value.metaData!.stampStatus.toString(),
+        qRDetails.value.points.toString(),
+        qRDetails.value.tierId.toString(),
+        qRDetails.value.programId.toString(),
+        qRDetails.value.person!.dateOfBirth!.year.toString(),
+        qRDetails.value.person!.dateOfBirth!.month.toString(),
+        qRDetails.value.person!.dateOfBirth!.day.toString(),
+        qRDetails.value.person!.mobileNumber.toString(),
+        qRDetails.value.id.toString(),
       ]);
 
     });
