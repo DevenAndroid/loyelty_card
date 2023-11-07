@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +65,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
       programId: programId,
       remainingpoints: finalInt3.toString(),
       rewards: "0",
-        tierId: tierId,
+      tierId: tierId,
       points: finalInt2,
       day: day,
       month: month,
@@ -76,7 +75,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
       statusOfUpdate.value = RxStatus.success();
       print("staffid :::::::::::::::::" + staffId.toString());
       print("staffid :::::::::::::::::" + mobileNumber.toString());
-showToast("Update successfully");
+      showToast("Update successfully");
       // Get.offAllNamed(MyRouters.loginScreen);
     });
   }
@@ -112,7 +111,6 @@ showToast("Update successfully");
     log("binaryRepresentation....     ${binaryRepresentation}");
   }
 
-
   int countOnes(String binaryString) {
     int count = 0;
     for (int i = 0; i < binaryString.length; i++) {
@@ -127,16 +125,17 @@ showToast("Update successfully");
   void initState() {
     // TODO: implement initState
     super.initState();
-     // main();
+    // main();
     getStaffName();
   }
 
-  int get finalInt => int.parse(recordRemainStamp)  + _itemCount;
+  int get finalInt => int.parse(recordRemainStamp) + _itemCount;
 
   int get finalInt1 => points + recordRemainStamp;
 
-  int get finalInt2 =>  int.parse(points) + int.parse(_itemCount.toString());
-  int get finalInt3 =>  int.parse(recordRemainStamp) - int.parse(_itemCount.toString());
+  int get finalInt2 => int.parse(points) + int.parse(_itemCount.toString());
+  int get finalInt3 =>
+      int.parse(recordRemainStamp) - int.parse(_itemCount.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +145,7 @@ showToast("Update successfully");
         child: FloatingActionButton(
           onPressed: () {
             controller.getToken();
-             updateQr();
+            updateQr();
             updateQr1();
           },
           child: Image.asset("assets/images/stamps.png"),
@@ -156,17 +155,21 @@ showToast("Update successfully");
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2C91FF),
-
         leading: InkWell(
-            onTap: (){
+            onTap: () {
               Get.back();
             },
-            child: const Icon(Icons.arrow_back,size: 20,color: Colors.white,)),
-       elevation: 0,
-       title: Text("Card Record" ,style: GoogleFonts.plusJakartaSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white),),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 20,
+              color: Colors.white,
+            )),
+        elevation: 0,
+        title: Text(
+          "Card Record",
+          style: GoogleFonts.plusJakartaSans(
+              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+        ),
         centerTitle: true,
       ),
       // bottomNavigationBar:  Padding(
@@ -184,7 +187,6 @@ showToast("Update successfully");
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Container(
                   padding: const EdgeInsets.all(10),
                   width: MediaQuery.of(context).size.width,
@@ -197,10 +199,11 @@ showToast("Update successfully");
                     children: [
                       GridView.builder(
                           gridDelegate:
-                               SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisSpacing: 4,
-                                  mainAxisSpacing: 8, crossAxisCount: 5,
-                            ),
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 4,
+                            mainAxisSpacing: 8,
+                            crossAxisCount: 5,
+                          ),
                           shrinkWrap: true,
                           itemCount:
                               int.parse(recordRemainStamp) + int.parse(points),
@@ -244,53 +247,75 @@ showToast("Update successfully");
                       //   ],
                       // ),
                     ],
-                  )
-              ),
+                  )),
 
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Name:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-
-                  Text(recordName,style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
+                  Text(
+                    "Name:",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF3E3E3E)),
+                  ),
+                  Text(
+                    recordName,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF454545)),
+                  ),
                 ],
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Email:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-                  Text(recordEmail,style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
+                  Text(
+                    "Email:",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF3E3E3E)),
+                  ),
+                  Text(
+                    recordEmail,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF454545)),
+                  ),
                 ],
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Lifetime Stamps:",style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3E3E3E)),),
-                  Text(recordRemainStamp,style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF454545)),),
+                  Text(
+                    "Lifetime Stamps:",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF3E3E3E)),
+                  ),
+                  Text(
+                    recordRemainStamp,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF454545)),
+                  ),
                 ],
               ),
               // const SizedBox(height: 15,),
@@ -368,13 +393,11 @@ showToast("Update successfully");
                   children: [
                     _itemCount != 0
                         ? InkWell(
-                      onTap: (){
-                        _itemCount--;
-                        setState(() {
-
-                        });
-                      },
-                          child: Padding(
+                            onTap: () {
+                              _itemCount--;
+                              setState(() {});
+                            },
+                            child: Padding(
                               padding: const EdgeInsets.only(bottom: 18.0),
                               child: IconButton(
                                 icon: const Icon(
@@ -384,7 +407,7 @@ showToast("Update successfully");
                                 onPressed: () => setState(() => _itemCount--),
                               ),
                             ),
-                        )
+                          )
                         : IconButton(
                             icon: const Icon(
                               Icons.remove,
@@ -419,33 +442,28 @@ showToast("Update successfully");
                       ),
                     ),
                     // const SizedBox(width: 10,),
-                    finalInt != 10?
-                    InkWell(
-                      onTap: (){
-                        if ((int.parse(recordRemainStamp) +
-                                      int.parse(points)) ==
-                                  _itemCount) return;
-                              _itemCount++;
-                        setState(() {
-
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 18.0),
-                        child: IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.white,
+                        InkWell(
+                            onTap: () {
+                              int data = (int.parse(recordRemainStamp) + int.parse(points));
+                              if (data == _itemCount){
+                                null;
+                              }
+                              else{
+                                _itemCount++;
+                              }
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 18.0),
+                              child: IconButton(
+                                  icon: const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () =>
+                                      setState(() => _itemCount++)),
                             ),
-                            onPressed: () => setState(() => _itemCount++)),
-                      ),
-                    ) : IconButton(
-    icon: const Icon(
-    Icons.add,
-    color: Colors.white,
-    ),
-    onPressed: () {},
-    ),
+                          )
                     // InkWell(
                     //     onTap: (){},
                     //     child: Text(
@@ -461,13 +479,13 @@ showToast("Update successfully");
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                "No Rewards Available",
-                style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF3E3E3E)),
-              ),
+              // Text(
+              //   "No Rewards Available",
+              //   style: GoogleFonts.plusJakartaSans(
+              //       fontSize: 14,
+              //       fontWeight: FontWeight.w600,
+              //       color: const Color(0xFF3E3E3E)),
+              // ),
               // InkWell(
               //   onTap: () async {
               //     final Uri url = Uri.parse(_scanBarcode);
