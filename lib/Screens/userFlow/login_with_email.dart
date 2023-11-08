@@ -35,9 +35,14 @@ class _LoginEmailState extends State<LoginEmail> {
   Rx<ProfileModel> profileModel = ProfileModel().obs;
 
   getProfile() {
-    getProfileRepo().then((value) {
+    getProfileRepo().then((value) async {
+      if(value.message=="Unauthenticated.") {
+        Get.toNamed(MyRouters.loginScreen);
+        showToast("user is logout ");
+      }
+
       if (value.status!) {
-        profileModel.value = value;
+      profileModel.value = value;
         statusOfProfile.value = RxStatus.success();
         showToast(value.message.toString());
       } else {

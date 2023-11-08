@@ -35,12 +35,18 @@ class _ScanCardState extends State<ScanCard> {
   Rx<ProfileModel> profileModel = ProfileModel().obs;
 
   getProfile() {
-    getProfileRepo().then((value) {
+    getProfileRepo().then((value) async {
+      if(value.message=="Unauthenticated.") {
+        Get.toNamed(MyRouters.loginScreen);
+        showToast("user is logout ");
+      }
       if (value.status!) {
         profileModel.value = value;
         statusOfProfile.value = RxStatus.success();
-        showToast(value.message.toString());
-      } else {
+        showToast(value.message.toString());}
+
+
+        else {
         statusOfProfile.value = RxStatus.error();
         showToast(value.message.toString());
       }
@@ -95,6 +101,7 @@ class _ScanCardState extends State<ScanCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     controller.getToken();
     getProfile();
     getStaffName();
