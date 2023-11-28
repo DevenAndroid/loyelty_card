@@ -19,6 +19,7 @@ import 'package:loyelty_card/widgets/common_colour.dart';
 import 'package:loyelty_card/widgets/common_error_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/model_get_data.dart';
 import '../../repositories/get_profile_repo.dart';
 import '../../widgets/common_textfield.dart';
 
@@ -73,17 +74,19 @@ class _ScanCardState extends State<ScanCard> {
   }
 
   Rx<RxStatus> statusOfQr = RxStatus.empty().obs;
-  Rx<QrDetailsModel> qRDetails = QrDetailsModel().obs;
+  Rx<ModelQrDetails> qRDetails = ModelQrDetails().obs;
 
   getDetails() {
     getQrDetailsRepo(ids: _scanBarcode2).then((value) {
       qRDetails.value = value;
       statusOfProfile.value = RxStatus.success();
       Get.toNamed(MyRouters.cardRecordScreen, arguments: [
-        qRDetails.value.person!.emailAddress.toString(),
-        qRDetails.value.person!.displayName.toString(),
-        qRDetails.value.metaData!.remainingpoints.toString(),
-        qRDetails.value.metaData!.stampStatus.toString()
+        qRDetails.value.data!.id.toString(),
+        qRDetails.value.data!.token.toString(),
+        qRDetails.value.data!.name.toString(),
+        qRDetails.value.data!.email.toString(),
+        qRDetails.value.data!.stampsCollected.toString(),
+        qRDetails.value.data!.stampsRemaining.toString(),
       ]);
 
     });

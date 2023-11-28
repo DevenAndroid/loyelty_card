@@ -6,6 +6,8 @@ import 'package:loyelty_card/repositories/qr_details_repo.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/circular_progressindicator.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../models/model_get_data.dart';
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
 
@@ -18,7 +20,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QRView');
   Barcode? result;
   Rx<RxStatus> statusOfQr = RxStatus.empty().obs;
-  Rx<QrDetailsModel> qRDetails = QrDetailsModel().obs;
+  Rx<ModelQrDetails> qRDetails = ModelQrDetails().obs;
   Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
   final qRController = Get.put(QrListController());
 
@@ -27,19 +29,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
       qRDetails.value = value;
       statusOfQr.value = RxStatus.success();
       Get.toNamed(MyRouters.cardRecordScreen, arguments: [
-
-        qRDetails.value.person!.emailAddress.toString(),
-        qRDetails.value.person!.displayName.toString(),
-        qRDetails.value.metaData!.remainingpoints.toString(),
-        qRDetails.value.metaData!.stampStatus.toString(),
-        qRDetails.value.points.toString(),
-        qRDetails.value.tierId.toString(),
-        qRDetails.value.programId.toString(),
-        qRDetails.value.person!.dateOfBirth!.year.toString(),
-        qRDetails.value.person!.dateOfBirth!.month.toString(),
-        qRDetails.value.person!.dateOfBirth!.day.toString(),
-        qRDetails.value.person!.mobileNumber.toString(),
-        qRDetails.value.id.toString(),
+        qRDetails.value.data!.id.toString(),
+        qRDetails.value.data!.token.toString(),
+        qRDetails.value.data!.name.toString(),
+        qRDetails.value.data!.email.toString(),
+        qRDetails.value.data!.stampsCollected.toString(),
+        qRDetails.value.data!.stampsRemaining.toString(),
       ]);
 
     });
@@ -48,7 +43,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    qRController.getToken();
+    // qRController.getToken();
   }
 
 

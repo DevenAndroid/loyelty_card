@@ -13,59 +13,31 @@ import '../models/login_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-final controller = Get.put(QrListController());
+// final controller = Get.put(QrListController());
 
-Future<ModelUpdate> updateScanRepo({id,
-tierId,
-programId,
-  displayName,
-  year,
-  month,
-  day,
-  emailAddress,
-  mobileNumber,
-  remainingpoints,
-  rewards,
-  points,
+Future<ModelUpdate> updateScanRepo({
+  token,stamps,staffid,
+
   context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
-  var map1 = <String, dynamic>{};
-  var map2 = <String, dynamic>{};
-  var map3 = <String, dynamic>{};
+
   SharedPreferences pref = await SharedPreferences.getInstance();
-  map['id'] =          id;
-  map['tierId'] =      tierId;
-  map['points'] =      points;
-  map['programId'] =   programId;
-  map1['displayName'] =   displayName;
-  map1['emailAddress'] =  emailAddress;
-  map1['mobileNumber'] =  mobileNumber;
-  map2['year'] =   year;
-  map2['month'] =  month;
-  map2['day'] =   day;
-  map3['remainingpoints'] =   remainingpoints;
-  map3['rewards'] =   rewards;
-  map1['dateOfBirth'] =   map2;
-  map['programId'] =   programId;
-  map['person'] =   map1;
-  map['metaData'] =   map3;
+  map['token'] =          token;
+  map['stamps'] =          stamps;
+  map['staff_id'] =          staffid;
+
 
 
 
   print(map);
   // try {
-  http.Response response = await http.put(
-      Uri.parse("https://api.pub2.passkit.io/members/member"),
-      headers: { HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader:controller.testToken.toString() },
-      body: jsonEncode(map));
-  log("Sign IN DATA${response.body}");
-  // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
-  //     headers: await getAuthHeader(),body: jsonEncode(map) );
 
+
+  http.Response response = await http.post(Uri.parse(ApiUrls.updateScan),
+       headers: await getAuthHeader(),body: jsonEncode(map) );
+  log("Sign IN DATA${response.body}");
   if (response.statusCode == 200) {
     Helpers.hideLoader(loader);
     print(jsonDecode(response.body));

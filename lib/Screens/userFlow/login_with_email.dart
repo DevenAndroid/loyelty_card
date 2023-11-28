@@ -20,6 +20,7 @@ import 'package:loyelty_card/widgets/common_colour.dart';
 import 'package:loyelty_card/widgets/common_error_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/model_get_data.dart';
 import '../../repositories/get_profile_repo.dart';
 import '../../widgets/common_textfield.dart';
 
@@ -72,7 +73,7 @@ class _LoginEmailState extends State<LoginEmail> {
   }
 
   Rx<RxStatus> statusOfQr = RxStatus.empty().obs;
-  Rx<QrDetailsModel> qRDetails = QrDetailsModel().obs;
+  Rx<ModelQrDetails> qRDetails = ModelQrDetails().obs;
 
   getDetails() {
     getQrDetailsRepo(ids: _scanBarcode2).then((value) {
@@ -80,10 +81,12 @@ class _LoginEmailState extends State<LoginEmail> {
       statusOfProfile.value = RxStatus.success();
 
       Get.toNamed(MyRouters.cardRecordScreen, arguments: [
-        qRDetails.value.person!.emailAddress.toString(),
-        qRDetails.value.person!.displayName.toString(),
-        qRDetails.value.metaData!.remainingpoints.toString(),
-        qRDetails.value.metaData!.stampStatus.toString()
+        qRDetails.value.data!.id.toString(),
+        qRDetails.value.data!.token.toString(),
+        qRDetails.value.data!.name.toString(),
+        qRDetails.value.data!.email.toString(),
+        qRDetails.value.data!.stampsCollected.toString(),
+        qRDetails.value.data!.stampsRemaining.toString(),
       ]);
     });
   }
@@ -99,7 +102,7 @@ class _LoginEmailState extends State<LoginEmail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.getToken();
+    // controller.getToken();
     getProfile();
     getStaffName();
   }
@@ -165,7 +168,7 @@ class _LoginEmailState extends State<LoginEmail> {
             ),
             InkWell(
                 onTap: () {
-                  controller.getToken();
+                  // controller.getToken();
                   // barcodeScan();
           Get.toNamed(MyRouters.scannerScreen);
                 },
@@ -245,7 +248,7 @@ class _LoginEmailState extends State<LoginEmail> {
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () {    controller.getToken();
+                            onTap: () {
                             Get.toNamed(MyRouters.scannerScreen);
                             },
                             child: CircleAvatar(

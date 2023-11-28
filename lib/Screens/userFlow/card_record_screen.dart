@@ -16,6 +16,9 @@ import 'package:open_filex/open_filex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/model_get_data.dart';
+import '../../repositories/qr_details_repo.dart';
+
 class CardRecordScreen extends StatefulWidget {
   const CardRecordScreen({super.key});
 
@@ -26,19 +29,12 @@ class CardRecordScreen extends StatefulWidget {
 class _CardRecordScreenState extends State<CardRecordScreen> {
   int _itemCount = 0;
 
-  var recordEmail = Get.arguments[0];
-  var recordName = Get.arguments[1];
-  var recordRemainStamp = Get.arguments[2];
-  var recordStamp = Get.arguments[3];
-  var points = Get.arguments[4];
-  var tierId = Get.arguments[5];
-  var programId = Get.arguments[6];
-  var year = Get.arguments[7];
-  var month = Get.arguments[8];
-  var day = Get.arguments[9];
-  var mobileNumber = Get.arguments[10];
-  var id = Get.arguments[11];
-  int countOnes1 = 0;
+  var id = Get.arguments[0];
+  var token = Get.arguments[1];
+  var name = Get.arguments[2];
+  var email = Get.arguments[3];
+  var stampsCollected = Get.arguments[4];
+  var stampsRemaining = Get.arguments[5];
 
   dynamic staffName = "";
   dynamic staffId = "";
@@ -49,7 +45,16 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     staffId = pref.getString('staffId');
     setState(() {});
   }
+  Rx<ModelQrDetails> qRDetails = ModelQrDetails().obs;
+  Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfQr = RxStatus.empty().obs;
+  getDetails() {
+    getQrDetailsRepo(ids:token).then((value) {
+      qRDetails.value = value;
+      statusOfQr.value = RxStatus.success();
 
+    });
+  }
   Rx<RxStatus> statusOfUpdate = RxStatus.empty().obs;
   Rx<ModelQRUpdate> update = ModelQRUpdate().obs;
   Rx<RxStatus> statusOfUpdateCode = RxStatus.empty().obs;
@@ -57,24 +62,16 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
 
   updateQr1() {
     updateScanRepo(
-      id: id,
+      token: token,
+      stamps: _itemCount,
       context: context,
-      displayName: recordName,
-      emailAddress: recordEmail,
-      mobileNumber: mobileNumber,
-      programId: programId,
-      remainingpoints: finalInt3.toString(),
-      rewards: "0",
-      tierId: tierId,
-      points: finalInt2,
-      day: day,
-      month: month,
-      year: year,
+
     ).then((value) async {
       updateQrCode.value = value;
+      getDetails();
       statusOfUpdate.value = RxStatus.success();
       print("staffid :::::::::::::::::" + staffId.toString());
-      print("staffid :::::::::::::::::" + mobileNumber.toString());
+      // print("staffid :::::::::::::::::" + mobileNumber.toString());
       showToast("Update successfully");
       // Get.offAllNamed(MyRouters.loginScreen);
     });
@@ -96,20 +93,20 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     });
   }
 
-  void main() {
-    var myInt = int.parse(recordStamp.toString());
-    int number = myInt; // Replace this with the integer you want to convert
-
-    // Convert the integer to binary
-    String binaryRepresentation = number.toRadixString(1);
-
-    countOnes1 = binaryRepresentation
-        .split("")
-        .map((e) => int.tryParse(e) ?? 0)
-        .toList()
-        .sum;
-    log("binaryRepresentation....     ${binaryRepresentation}");
-  }
+  // void main() {
+  //   var myInt = int.parse(recordStamp.toString());
+  //   int number = myInt; // Replace this with the integer you want to convert
+  //
+  //   // Convert the integer to binary
+  //   String binaryRepresentation = number.toRadixString(1);
+  //
+  //   countOnes1 = binaryRepresentation
+  //       .split("")
+  //       .map((e) => int.tryParse(e) ?? 0)
+  //       .toList()
+  //       .sum;
+  //   log("binaryRepresentation....     ${binaryRepresentation}");
+  // }
 
   int countOnes(String binaryString) {
     int count = 0;
@@ -129,13 +126,13 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     getStaffName();
   }
 
-  int get finalInt => int.parse(recordRemainStamp) + _itemCount;
+  int get finalInt => int.parse(stampsCollected) + _itemCount;
 
-  int get finalInt1 => points + recordRemainStamp;
+  int get finalInt1 => stampsCollected + stampsRemaining;
 
-  int get finalInt2 => int.parse(points) + int.parse(_itemCount.toString());
+  int get finalInt2 => int.parse(stampsCollected) + int.parse(_itemCount.toString());
   int get finalInt3 =>
-      int.parse(recordRemainStamp) - int.parse(_itemCount.toString());
+      int.parse(stampsCollected) - int.parse(_itemCount.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +141,8 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
         padding: const EdgeInsets.only(bottom: 150.0, right: 10),
         child: FloatingActionButton(
           onPressed: () {
-            controller.getToken();
+
+            // controller.getToken();
             updateQr();
             updateQr1();
           },
@@ -206,7 +204,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                           ),
                           shrinkWrap: true,
                           itemCount:
-                              int.parse(recordRemainStamp) + int.parse(points),
+                              int.parse(stampsRemaining) + int.parse(stampsCollected),
                           itemBuilder: (c, i) {
                             return GestureDetector(
                               onTap: () {
@@ -264,7 +262,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                         color: const Color(0xFF3E3E3E)),
                   ),
                   Text(
-                    recordName,
+                    name,
                     style: GoogleFonts.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -287,7 +285,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                         color: const Color(0xFF3E3E3E)),
                   ),
                   Text(
-                    recordEmail,
+                    email,
                     style: GoogleFonts.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -310,7 +308,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                         color: const Color(0xFF3E3E3E)),
                   ),
                   Text(
-                    recordRemainStamp,
+                    stampsCollected,
                     style: GoogleFonts.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -444,7 +442,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                     // const SizedBox(width: 10,),
                         InkWell(
                             onTap: () {
-                              int data = (int.parse(recordRemainStamp) + int.parse(points));
+                              int data = (int.parse(stampsRemaining) + int.parse(stampsCollected));
                               if (data == _itemCount){
                                 null;
                               }
