@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyelty_card/Controller/qr_list_controller.dart';
-import 'package:loyelty_card/models/qr_details_model.dart';
 import 'package:loyelty_card/repositories/qr_details_repo.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
-import 'package:loyelty_card/widgets/circular_progressindicator.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../models/model_get_data.dart';

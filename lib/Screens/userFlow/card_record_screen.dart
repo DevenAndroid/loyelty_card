@@ -52,6 +52,10 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
     getQrDetailsRepo(ids:token).then((value) {
       qRDetails.value = value;
       statusOfQr.value = RxStatus.success();
+      stampsCollected = value.data!.stampsCollected ?? stampsCollected;
+      stampsRemaining = value.data!.stampsRemaining ?? stampsRemaining;
+      _itemCount = 0;
+      setState(() {});
 
     });
   }
@@ -65,7 +69,6 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
       token: token,
       stamps: _itemCount,
       context: context,
-
     ).then((value) async {
       updateQrCode.value = value;
       getDetails();
@@ -122,33 +125,32 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getDetails();
     // main();
     getStaffName();
   }
 
-  int get finalInt => int.parse(stampsCollected) + _itemCount;
+  int get finalInt => int.parse(stampsCollected.toString()) + _itemCount;
 
-  int get finalInt1 => stampsCollected + stampsRemaining;
-
-  int get finalInt2 => int.parse(stampsCollected) + int.parse(_itemCount.toString());
-  int get finalInt3 =>
-      int.parse(stampsCollected) - int.parse(_itemCount.toString());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    print(stampsCollected);
+    print(finalInt);
+    return
+      statusOfQr.value.isSuccess?
+
+      Scaffold(
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 150.0, right: 10),
         child: FloatingActionButton(
           onPressed: () {
-
-            // controller.getToken();
             updateQr();
             updateQr1();
           },
-          child: Image.asset("assets/images/stamps.png"),
           backgroundColor: Colors.white,
           elevation: 0,
+          child: Image.asset("assets/images/stamps.png"),
         ),
       ),
       appBar: AppBar(
@@ -204,14 +206,14 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                           ),
                           shrinkWrap: true,
                           itemCount:
-                              int.parse(stampsRemaining) + int.parse(stampsCollected),
+                              int.parse(stampsRemaining.toString()) + int.parse(stampsCollected.toString()),
                           itemBuilder: (c, i) {
                             return GestureDetector(
                               onTap: () {
                                 _itemCount = i + 1;
                                 setState(() {});
                               },
-                              child: finalInt < i + 1
+                              child: finalInt < i+1
                                   ? Image.asset(
                                       "assets/images/cup.png",
                                       width: 45,
@@ -246,7 +248,6 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                       // ),
                     ],
                   )),
-
               const SizedBox(
                 height: 20,
               ),
@@ -308,7 +309,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                         color: const Color(0xFF3E3E3E)),
                   ),
                   Text(
-                    stampsCollected,
+                    qRDetails.value.data!.stampsRemaining.toString(),
                     style: GoogleFonts.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -442,7 +443,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                     // const SizedBox(width: 10,),
                         InkWell(
                             onTap: () {
-                              int data = (int.parse(stampsRemaining) + int.parse(stampsCollected));
+                              int data = (int.parse(stampsRemaining.toString()) + int.parse(stampsCollected.toString()));
                               if (data == _itemCount){
                                 null;
                               }
@@ -504,6 +505,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
           ),
         ),
       ),
-    );
+    ):const Center(child: CircularProgressIndicator(
+      ));
   }
 }
