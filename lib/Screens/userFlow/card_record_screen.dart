@@ -134,8 +134,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
   int get finalInt1 => points + recordRemainStamp;
 
   int get finalInt2 => int.parse(points) + int.parse(_itemCount.toString());
-  int get finalInt3 =>
-      int.parse(recordRemainStamp) - int.parse(_itemCount.toString());
+  int get finalInt3 => int.parse(recordRemainStamp) - int.parse(_itemCount.toString());
 
   @override
   Widget build(BuildContext context) {
