@@ -9,20 +9,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loyelty_card/Screens/loyalty_card_list.dart';
 import 'package:loyelty_card/models/model_logout.dart';
 import 'package:loyelty_card/models/profile_model.dart';
-import 'package:loyelty_card/models/qr_details_model.dart';
 import 'package:loyelty_card/repositories/logout%20repo.dart';
 import 'package:loyelty_card/repositories/qr_details_repo.dart';
 import 'package:loyelty_card/resourses/api_constant.dart';
 import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/circular_progressindicator.dart';
 import 'package:loyelty_card/widgets/common_boder_button.dart';
-import 'package:loyelty_card/widgets/common_colour.dart';
 import 'package:loyelty_card/widgets/common_error_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/model_get_data.dart';
 import '../../repositories/get_profile_repo.dart';
-import '../../widgets/common_textfield.dart';
 
 class LoginEmail extends StatefulWidget {
   const LoginEmail({super.key});
@@ -37,13 +34,13 @@ class _LoginEmailState extends State<LoginEmail> {
 
   getProfile() {
     getProfileRepo().then((value) async {
-      if(value.message=="Unauthenticated.") {
+      if (value.message == "Unauthenticated.") {
         Get.toNamed(MyRouters.loginScreen);
         showToast("user is logout ");
       }
 
       if (value.status!) {
-      profileModel.value = value;
+        profileModel.value = value;
         statusOfProfile.value = RxStatus.success();
         showToast(value.message.toString());
       } else {
@@ -113,7 +110,7 @@ class _LoginEmailState extends State<LoginEmail> {
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             '#ff6666', '', true, ScanMode.BARCODE)!
-        .listen((barcode) =>getDetails());
+        .listen((barcode) => getDetails());
     getDetails();
   }
 
@@ -128,7 +125,7 @@ class _LoginEmailState extends State<LoginEmail> {
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-    if (!mounted)   getDetails();
+    if (!mounted) getDetails();
     setState(() {
       _scanBarcode2 = barcodeScanRes;
       getDetails();
@@ -161,7 +158,7 @@ class _LoginEmailState extends State<LoginEmail> {
                   Get.toNamed(MyRouters.qrCodeList);
                 },
                 child: const CustomOutlineBoder2(
-                  title: 'QR CARD LIST',
+                  title: 'QR CODE LIST',
                 )),
             const SizedBox(
               height: 10,
@@ -170,7 +167,7 @@ class _LoginEmailState extends State<LoginEmail> {
                 onTap: () {
                   // controller.getToken();
                   // barcodeScan();
-          Get.toNamed(MyRouters.scannerScreen);
+                  Get.toNamed(MyRouters.scannerScreen);
                 },
                 child: const CustomOutlineBoder(
                   title: 'SCAN CARD',
@@ -223,9 +220,7 @@ class _LoginEmailState extends State<LoginEmail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
-                                onTap: () {
-
-                                },
+                                onTap: () {},
                                 child: Text(
                                   "Logged in as:",
                                   style: GoogleFonts.plusJakartaSans(
@@ -249,7 +244,7 @@ class _LoginEmailState extends State<LoginEmail> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                            Get.toNamed(MyRouters.scannerScreen);
+                              Get.toNamed(MyRouters.scannerScreen);
                             },
                             child: CircleAvatar(
                               radius: 20,

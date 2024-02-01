@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "124342400135",
-    "project_id": "loyalty-card-generator-2ffdf",
-    "storage_bucket": "loyalty-card-generator-2ffdf.appspot.com"
+    "project_number": "581262041861",
+    "project_id": "loyalty-card-generator-ad964",
+    "storage_bucket": "loyalty-card-generator-ad964.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:124342400135:android:6872a21a3f852b0a8db422",
+        "mobilesdk_app_id": "1:581262041861:android:0c199b0548391f8bcd8d6c",
         "android_client_info": {
-          "package_name": "com.loyeltyCardGenerator"
+          "package_name": "com.LoyaltyCardGenerator"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDSo2A4a7HCypykk7UU3Ns-Qo3Qp9Nn2sw"
+          "current_key": "AIzaSyBeeJ0b90BpsSHwyghr-qfSx5zaFqPLdCU"
         }
       ],
       "services": {
