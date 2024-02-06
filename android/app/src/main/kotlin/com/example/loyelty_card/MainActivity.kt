@@ -1,4 +1,4 @@
-package com.loyeltyCard
+package com.LoyaltyCardGenerator
 
 import io.flutter.embedding.android.FlutterActivity
 

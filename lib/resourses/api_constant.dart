@@ -9,7 +9,7 @@
 
 
 
- class ApiUrls {
+ class  ApiUrls {
    static const String apiBaseUrl = 'https://loyaltycardgenerator.com/backend/api/';
    static const String login = "${apiBaseUrl}login";
    static const String profile = "${apiBaseUrl}user-profile";
@@ -18,7 +18,9 @@
    static const String logout = "${apiBaseUrl}logout";
    static const String createToken = "${apiBaseUrl}create-token";
    static const String staffList = "${apiBaseUrl}staff-list";
-   static const String updateScan = "${apiBaseUrl}update-scan?staff_id=";
+   static const String getUSer = "${apiBaseUrl}get-user-details";
+   // static const String updateScan = "${apiBaseUrl}update-scan?staff_id=";
+   static const String updateScan = "${apiBaseUrl}update-scan";
 
 
  }

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,6 @@ import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 import 'package:loyelty_card/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:client_information/client_information.dart';
 // import '../../repositories/login repo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,7 +28,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   String _scanBarcode2 = 'Unknown';
   String str = '';
   void removeLastString() {
@@ -39,11 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // print(result1);
   }
+
   ModelQrLogin qRLogin = ModelQrLogin();
+
   /// For Continuous scan
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
 
@@ -53,42 +53,41 @@ class _LoginScreenState extends State<LoginScreen> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR).then((value) async {
-            var response = jsonDecode(value);
-            str = response["password"];
-            log(str);
-            String result = str.substring(15, str.length - 15);
-            log(result);
-            log(response["email"]);
-            var fcmToken;
-            if(Platform.isIOS){
-              fcmToken = "agfjshfgsdh";
-            }
-            else{
-              fcmToken = await FirebaseMessaging.instance.getToken();
-            }
-            loginRepo(
-              context: context,
-              password: result,
-              email: response["email"],
-              fcmToken: fcmToken!,
+              '#ff6666', 'Cancel', true, ScanMode.QR)
+          .then((value) async {
+        var response = jsonDecode(value);
+        str = response["password"];
+        log(str);
+        String result = str.substring(15, str.length - 15);
+        log(result);
+        log(response["email"]);
+        var fcmToken;
+        if (Platform.isIOS) {
+          fcmToken = "agfjshfgsdh";
+        } else {
+          fcmToken = await FirebaseMessaging.instance.getToken();
+        }
+        loginRepo(
+          context: context,
+          password: result,
+          email: response["email"],
+          fcmToken: fcmToken!,
+        ).then((value) async {
+          login.value = value;
+          if (value.status == true) {
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            pref.setString('cookieOne', value.authToken.toString());
 
-            ).then((value) async {
-              login.value = value;
-              if (value.status == true) {
-                SharedPreferences pref = await SharedPreferences.getInstance();
-                pref.setString('cookieOne', value.authToken.toString());
-
-                // Get.offAllNamed(MyRouters.scanCard);
-                Get.offAllNamed(MyRouters.staffListScreen);
-                statusOfLogin.value = RxStatus.success();
-                showToast(value.message.toString());
-              } else {
-                statusOfLogin.value = RxStatus.error();
-                showToast(value.message.toString());
-              }
-            });
-            return null;
+            // Get.offAllNamed(MyRouters.scanCard);
+            Get.offAllNamed(MyRouters.staffListScreen);
+            statusOfLogin.value = RxStatus.success();
+            showToast(value.message.toString());
+          } else {
+            statusOfLogin.value = RxStatus.error();
+            showToast(value.message.toString());
+          }
+        });
+        return null;
       });
 
       if (kDebugMode) {
@@ -100,9 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
     setState(() {
       _scanBarcode2 = barcodeScanRes!;
-
-
-
     });
   }
 
@@ -112,15 +108,13 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   loginCode() async {
-
     var fcmToken;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       fcmToken = "agfjshfgsdh";
-    }
-    else{
+    } else {
       fcmToken = await FirebaseMessaging.instance.getToken();
     }
-    print("etryytgghrg"+fcmToken!);
+    print("etryytgghrg" + fcmToken!);
     if (formKey6.currentState!.validate()) {
       loginRepo(
         fcmToken: fcmToken!,
@@ -173,7 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: size.height * .52,
                 decoration: const BoxDecoration(
                     color: Color(0xFF2C91FF),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30))),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -188,7 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Welcome to Loyalty Card",
                             style: GoogleFonts.plusJakartaSans(
-                                fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white),
+                                fontSize: 26,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
                           ),
                         ),
                         const SizedBox(
@@ -196,8 +194,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Text(
                           "Email",
-                          style:
-                              GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                         ),
                         const SizedBox(
                           height: 14,
@@ -209,9 +209,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             if (emailNoController.text.isEmpty) {
                               return "Please enter your email";
-                            } else if (emailNoController.text.contains('+') || emailNoController.text.contains(' ')) {
+                            } else if (emailNoController.text.contains('+') ||
+                                emailNoController.text.contains(' ')) {
                               return "Email is invalid";
-                            } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            } else if (RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                 .hasMatch(emailNoController.text)) {
                               return null;
                             } else {
@@ -224,8 +226,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Text(
                           "Password",
-                          style:
-                              GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                         ),
                         const SizedBox(
                           height: 14,
@@ -235,18 +239,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: "Enter password",
                           controller: passwordController,
                           validator: MultiValidator([
-                            RequiredValidator(errorText: 'Please enter your password'),
+                            RequiredValidator(
+                                errorText: 'Please enter your password'),
                             MinLengthValidator(8,
                                 errorText:
                                     'Password must be at least 8 characters, with 1 special character & 1 numerical'),
-                            PatternValidator(r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
-                                errorText: "Password must be at least with 1 special character & 1 numerical"),
+                            PatternValidator(
+                                r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                errorText:
+                                    "Password must be at least with 1 special character & 1 numerical"),
                           ]),
                         ),
                         const SizedBox(
                           height: 30,
                         ),
-
                         InkWell(
                           onTap: () {
                             loginCode();
@@ -257,38 +263,44 @@ class _LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 10,)
-,                        Padding(
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: ElevatedButton(onPressed: (){barcodeScan();}, child: Text("Staff Login" ,style:GoogleFonts.plusJakartaSans(
-                            color:  Color(
-                            0xFF2C91FF),
-                                fontSize: 18,
-                                fontWeight:
-                                FontWeight
-                                    .w700),), style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                side:  BorderSide(
-                                  color:  Colors.white,
-                                ),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    )),
-
-                                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black
-                                )),),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                barcodeScan();
+                              },
+                              child: Text(
+                                "Staff Login",
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: Color(0xFF2C91FF),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  )),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 12),
+                                  textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                            ),
                           ),
                         )
                       ],
