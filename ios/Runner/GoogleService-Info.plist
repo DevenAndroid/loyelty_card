@@ -2,35 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>1015144669919-uaurps6631o5uqincme1qo0lr0q1c3dk.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1015144669919-uaurps6631o5uqincme1qo0lr0q1c3dk</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1015144669919-1i8qn5m0b9dclt9f9t3441r1tr84gsl9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCwdwAMkh55Jw2BL3r0vhpOaemS5DsvIQo</string>
+	<string>AIzaSyDGIhIf1xoltcq6J1Ch096_B0JQuz1DArU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1015144669919</string>
+	<string>581262041861</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.unext.unextu</string>
+	<string>com.LoyaltyCardGenerator</string>
 	<key>PROJECT_ID</key>
-	<string>unext12-8c6fc</string>
+	<string>loyalty-card-generator-ad964</string>
 	<key>STORAGE_BUCKET</key>
-	<string>unext12-8c6fc.appspot.com</string>
+	<string>loyalty-card-generator-ad964.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1015144669919:ios:4b796b0f9b84695d633f6a</string>
+	<string>1:581262041861:ios:93d491d3b9486cdbcd8d6c</string>
 </dict>
 </plist>
