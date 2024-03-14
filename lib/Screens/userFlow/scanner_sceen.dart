@@ -6,6 +6,7 @@ import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../models/model_get_data.dart';
+
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
 
@@ -33,10 +34,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
         qRDetails.value.data!.email.toString(),
         qRDetails.value.data!.stampsCollected.toString(),
         qRDetails.value.data!.stampsRemaining.toString(),
+        qRDetails.value.data!.stampsRemaining.toString(),
       ]);
-
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,33 +46,29 @@ class _ScannerScreenState extends State<ScannerScreen> {
     // qRController.getToken();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body:    Column(
-          children: [
-            Expanded(
-              flex: 5,
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: _onQRViewCreated,
-              ),
+        backgroundColor: Colors.grey,
+        body: Column(children: [
+          Expanded(
+            flex: 5,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
             ),
-            if (result != null)
-              const Expanded(
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    'Scanned Completed',
-                    style: TextStyle(color: Colors.white),
-                  ),
+          ),
+          if (result != null)
+            const Expanded(
+              flex: 1,
+              child: Center(
+                child: Text(
+                  'Scanned Completed',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-
-          ]));
-
+            ),
+        ]));
   }
 
   void _onQRViewCreated(QRViewController controller) {
@@ -83,7 +81,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
       });
       getDetails();
 
-       print("gddfgfdg"+result!.code.toString(),) ;
+      print(
+        "gddfgfdg" + result!.code.toString(),
+      );
 
       print("emitt done");
       controller.pauseCamera();

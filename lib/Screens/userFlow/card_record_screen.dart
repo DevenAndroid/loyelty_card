@@ -28,6 +28,7 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
   var email = Get.arguments[3];
   var stampsCollected = Get.arguments[4];
   var stampsRemaining = Get.arguments[5];
+  var rewards = Get.arguments[6];
 
   dynamic staffName = "";
   dynamic staffId = "";
@@ -372,6 +373,31 @@ class _CardRecordScreenState extends State<CardRecordScreen> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Reward:",
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF3E3E3E)),
+                        ),
+                        Text(
+                          qRDetails.value.data!.reward!.rewards.toString(),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF454545)),
+                        ),
+                      ],
+                    ),
+
                     const SizedBox(
                       height: 30,
                     ),
