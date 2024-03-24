@@ -18,6 +18,10 @@ import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 import 'package:loyelty_card/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../web_view_screen.dart';
 // import '../../repositories/login repo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,29 +36,24 @@ class _LoginScreenState extends State<LoginScreen> {
   String str = '';
   void removeLastString() {
     str = "XQ#d%wLHuv2Vt\$#123456783n85Q#\$Luzc!VAA";
-
-    // String result1 = str.substring(15, str.length  -15);
-
-    // print(result1);
   }
+
+
+
 
   ModelQrLogin qRLogin = ModelQrLogin();
 
   /// For Continuous scan
   Future<void> startBarcodeScanStream() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+    FlutterBarcodeScanner.getBarcodeStreamReceiver('#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
 
   Future<void> barcodeScan() async {
     String? barcodeScanRes;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-              '#ff6666', 'Cancel', true, ScanMode.QR)
-          .then((value) async {
+      barcodeScanRes =
+          await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR).then((value) async {
         var response = jsonDecode(value);
         str = response["password"];
         log(str);
@@ -167,9 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: size.height * .52,
                 decoration: const BoxDecoration(
                     color: Color(0xFF2C91FF),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30))),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -184,9 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Welcome to Loyalty Card",
                             style: GoogleFonts.plusJakartaSans(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
+                                fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white),
                           ),
                         ),
                         const SizedBox(
@@ -195,9 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           "Email",
                           style: GoogleFonts.plusJakartaSans(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
+                              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                         ),
                         const SizedBox(
                           height: 14,
@@ -209,11 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             if (emailNoController.text.isEmpty) {
                               return "Please enter your email";
-                            } else if (emailNoController.text.contains('+') ||
-                                emailNoController.text.contains(' ')) {
+                            } else if (emailNoController.text.contains('+') || emailNoController.text.contains(' ')) {
                               return "Email is invalid";
-                            } else if (RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                 .hasMatch(emailNoController.text)) {
                               return null;
                             } else {
@@ -227,9 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           "Password",
                           style: GoogleFonts.plusJakartaSans(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
+                              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                         ),
                         const SizedBox(
                           height: 14,
@@ -239,15 +228,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: "Enter password",
                           controller: passwordController,
                           validator: MultiValidator([
-                            RequiredValidator(
-                                errorText: 'Please enter your password'),
+                            RequiredValidator(errorText: 'Please enter your password'),
                             MinLengthValidator(8,
                                 errorText:
                                     'Password must be at least 8 characters, with 1 special character & 1 numerical'),
-                            PatternValidator(
-                                r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
-                                errorText:
-                                    "Password must be at least with 1 special character & 1 numerical"),
+                            PatternValidator(r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                errorText: "Password must be at least with 1 special character & 1 numerical"),
                           ]),
                         ),
                         const SizedBox(
@@ -263,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -279,30 +265,56 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () {
                                 barcodeScan();
                               },
-                              child: Text(
-                                "Staff Login",
-                                style: GoogleFonts.plusJakartaSans(
-                                    color: Color(0xFF2C91FF),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700),
-                              ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     color: Colors.white,
                                   ),
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                     Radius.circular(8),
                                   )),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 12),
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black)),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                                  textStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              child: Text(
+                                "Staff Login",
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: const Color(0xFF2C91FF), fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
                             ),
                           ),
-                        )
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Don't Have An Account?",
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 14),
+                            ),
+                            InkWell(
+                              onTap: () async {
+
+                                // const url = 'https://www.google.com';
+                                // if (await canLaunch(url)) {
+                                // await launch(url);
+                                // } else {
+                                // throw 'Could not launch $url';
+                                // }
+                               Get.to(WebViewScreen());
+                              },
+                              child: Text(
+                                ' Sign Up',
+                                style: TextStyle(color: Color(0xFF69C541), fontWeight: FontWeight.w600, fontSize: 14),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   ),
