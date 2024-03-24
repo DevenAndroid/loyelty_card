@@ -18,6 +18,7 @@ import 'package:loyelty_card/routers/my_routers.dart';
 import 'package:loyelty_card/widgets/common_button.dart';
 import 'package:loyelty_card/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import '../../repositories/login repo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -302,7 +303,48 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.black)),
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Don't Have An Account?",
+                              style: TextStyle(
+                                  color:  Color(0xFF3A3737),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 14
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                const url = "https://www.google.com";
+                                try {
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                } catch (e) {
+                                  print('Error launching URL: $e');
+                                  // Handle the error gracefully, such as showing a snackbar or dialog
+                                }
+                              },
+                              child:
+                              const Text(' Sign Up',
+                                style: TextStyle(
+                                    color:  Color(0xFF69C541),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   ),
