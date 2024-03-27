@@ -28,11 +28,8 @@ class WebViewScreen extends StatelessWidget {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://flutter.dev'));
+      ..loadRequest(Uri.parse('https://loyaltycardgenerator.com/#/register'));
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Web View"),
-      ),
       body:  WebViewWidget(controller: controller)
 
     );

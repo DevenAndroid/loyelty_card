@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Center(
                           child: Text(
-                            "Welcome to Loyalty Card",
+                            "Welcome to Loyalty Card Generator",
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white),
                           ),
@@ -285,14 +285,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
                               "Don't Have An Account?",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 14),
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
                             ),
                             InkWell(
                               onTap: () async {
@@ -307,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 ' Sign Up',
-                                style: TextStyle(color: Color(0xFF69C541), fontWeight: FontWeight.w600, fontSize: 14),
+                                style: TextStyle(color: Color(0xff3E3E3E), fontWeight: FontWeight.w600, fontSize: 16),
                               ),
                             ),
                           ],
